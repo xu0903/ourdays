@@ -2,7 +2,7 @@
    網頁與設定檔：先試網路（3 秒內），成功就更新快取；沒網路或太慢就用快取。
    所以賣家更新 config.js 後，客人下次有網路打開就會拿到新版。
    照片與圖示：先用快取。要換照片時請換檔名（例如 01.jpg → 01b.jpg），舊手機才會抓新圖。 */
-const CACHE = "ourdays-v1";
+const CACHE = "ourdays-v2";   // 圖示等「先用快取」的檔案換內容時，改這個版本號讓舊快取被清掉
 const CORE = ["./", "./index.html", "./config.js", "./manifest.json",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/favicon-32.png"];
 

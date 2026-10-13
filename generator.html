@@ -104,6 +104,8 @@ pre{white-space:pre-wrap;word-break:break-all;background:#FFF6F1;border-radius:1
       <label>在一起的第一天<input id="startDate" type="date"></label>
       <label>首頁的一句話<input id="heroNote" maxlength="40" placeholder="例如：謝謝你一直都在。"></label>
       <label>網頁名稱<input id="title" maxlength="12" placeholder="我們的日子"></label>
+      <label class="check" style="display:flex"><input type="checkbox" id="couple">放一張兩人合照當首頁大頭貼和 App 圖示</label>
+      <p class="hint" style="margin-top:-4px">選一張兩個人的臉都在中間的照片，賣家會幫你裁成正方形。</p>
     </div>
   </section>
 
@@ -132,6 +134,11 @@ pre{white-space:pre-wrap;word-break:break-all;background:#FFF6F1;border-radius:1
 
   <section class="card"><h2><span class="no">5</span>回憶相簿</h2>
     <p class="hint" style="margin-bottom:10px">照片不用在這裡上傳。勾選「這則有照片」後，下面會產生照片檔名清單，再把照片照清單傳給賣家。網頁上線後，兩個人也可以在「回憶」頁自己新增（雲端相簿，雙方同步）。</p>
+    <label style="margin-bottom:12px">相框款式（打開網頁後也可以隨時換）<select id="albumFrame">
+      <option value="plain">簡約</option><option value="polaroid">拍立得</option><option value="washi">和紙膠帶</option>
+      <option value="film">底片</option><option value="cream">奶油</option><option value="stamp">郵票</option>
+      <option value="magazine">雜誌</option><option value="booth">人生四格</option><option value="arch">拱窗</option>
+      <option value="gingham">格紋</option><option value="datestamp">日期印</option></select></label>
     <div id="album"></div>
     <button class="btn line" id="addAlbum">新增一則回憶</button>
   </section>
@@ -191,7 +198,7 @@ const blankLetter=()=>({to:"",from:"",title:"",unlockDate:"",text:""});
 function fresh(){
   return {a:"",b:"",startDate:"",heroNote:"",title:"",theme:"#E26D5C",animal:"shiba",petName:"",petLines:"",
     dates:[{label:"",date:"",type:"birthday",repeat:"yearly"},{label:"",date:"",type:"birthday",repeat:"yearly"}],
-    album:[blankMem()],quiz:[blankQ()],r:["","",""],letters:[]};
+    album:[blankMem()],quiz:[blankQ()],r:["","",""],letters:[],couple:false,albumFrame:"polaroid"};
 }
 function load(){
   try{const v=localStorage.getItem(DRAFT_KEY);if(v){const d=JSON.parse(v);if(d&&typeof d==="object") return Object.assign(fresh(),d);}}catch(e){}
@@ -292,11 +299,14 @@ function build(){
     startDate:S.startDate,
     heroNote:S.heroNote.trim(),
     theme:S.theme.toUpperCase(),
+    ...(S.couple?{couplePhoto:"photos/couple.jpg"}:{}),
+    albumFrame:S.albumFrame,
     showCredit:false, creditText:"", demoControls:false,
     pet:{name:S.petName.trim()||"寶寶",animal:S.animal},
     petLines:S.petLines.split("\n").map(s=>s.trim()).filter(Boolean),
     dates, letters, album, quiz, quizResult:qr
   };
+  if(S.couple) photos.unshift({file:"couple.jpg",m:{date:"首頁",title:"兩人合照（大頭貼與 App 圖示，臉在中間）"}});
   return {cfg,errs,warns,photos};
 }
 function todayYmd(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");}
@@ -319,6 +329,10 @@ function photoText(photos){
 const SIMPLE=["a","b","startDate","heroNote","title","petName","petLines"];
 SIMPLE.forEach(k=>{const el=$("#"+k);el.value=S[k]||"";el.addEventListener("input",()=>{S[k]=el.value;changed();});});
 [0,1,2].forEach(i=>{const el=$("#r"+i);el.value=S.r[i]||"";el.addEventListener("input",()=>{S.r[i]=el.value;changed();});});
+$("#couple").checked=!!S.couple;
+$("#couple").addEventListener("change",e=>{S.couple=e.target.checked;changed();});
+$("#albumFrame").value=S.albumFrame||"polaroid";
+$("#albumFrame").addEventListener("change",e=>{S.albumFrame=e.target.value;changed();});
 document.querySelectorAll('input[name=animal]').forEach(r=>{
   r.checked=r.value===S.animal;
   r.addEventListener("change",()=>{S.animal=r.value;changed();});

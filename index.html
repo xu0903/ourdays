@@ -132,6 +132,109 @@ button{font:inherit;color:inherit;cursor:pointer}
 .cloudfoot{text-align:center;font-size:12px;color:var(--muted);margin:4px 0 0}
 .cloudfoot button{border:0;background:none;color:var(--accent);font-size:12px;text-decoration:underline;padding:4px}
 .btn:disabled{opacity:.6}
+/* hero 雙人照 */
+.hero .couple{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 12px;border:4px solid #fff;box-shadow:0 0 0 2px var(--accent-soft)}
+
+/* 相框選擇 */
+.framebar{display:flex;align-items:center;gap:8px;margin:0 0 16px}
+.framebar>span{font-size:13px;color:var(--muted);font-weight:600;flex:none}
+.framepick{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 4px;-webkit-overflow-scrolling:touch}
+.framepick::-webkit-scrollbar{display:none}
+.framepick button{flex:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 12px;font-size:13px;color:var(--ink)}
+.framepick button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.mem .fx,.mem .px{display:none}
+.mem .pic{position:relative}
+.mem .pic img{object-position:50% 35%}
+.demohint{margin-top:10px;padding:8px 12px;border-radius:12px;background:var(--accent-tint);font-size:13px}
+.demohint b{color:var(--accent);letter-spacing:.06em}
+.formacts{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.memacts{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+.memacts .delmem{margin:0}
+
+/* 1 拍立得（韓系清新） */
+.f-polaroid .mem{border-radius:4px;padding:10px 10px 0;box-shadow:0 6px 16px rgba(59,47,47,.10)}
+.f-polaroid .mem:nth-child(odd){transform:rotate(-1.2deg)}
+.f-polaroid .mem:nth-child(even){transform:rotate(1deg)}
+.f-polaroid .mem .pic{border-radius:2px;aspect-ratio:1/1}
+.f-polaroid .mem .tx{padding:14px 4px 18px;text-align:center}
+.f-polaroid .mem .tt{font-family:"Kaiti TC","STKaiti","BiauKai","DFKai-SB",serif;font-size:18px;font-weight:600}
+
+/* 2 和紙膠帶（日系文青） */
+.f-washi .mem{border-radius:6px;padding:12px 12px 0;background:#FFFDF9}
+.f-washi .mem .pic{border-radius:3px}
+.f-washi .mem .fx{display:block;position:absolute;inset:0;pointer-events:none;z-index:2}
+.f-washi .mem .fx::before,.f-washi .mem .fx::after{content:"";position:absolute;top:-6px;width:84px;height:24px;opacity:.9}
+.f-washi .mem .fx::before{left:-12px;transform:rotate(-30deg);background:repeating-linear-gradient(45deg,var(--accent-soft) 0 6px,rgba(255,255,255,.6) 6px 12px)}
+.f-washi .mem .fx::after{right:-12px;transform:rotate(28deg);background:repeating-linear-gradient(90deg,#CFE3D9 0 8px,#EAF3EE 8px 16px)}
+
+/* 3 底片（日系文青） */
+.f-film .mem{background:#1F1B1A;color:#F3E9DD;border-radius:6px;padding:24px 10px 22px;box-shadow:none}
+.f-film .mem .pic{border-radius:2px}
+.f-film .mem .fx{display:block;position:absolute;inset:0;pointer-events:none}
+.f-film .mem .fx::before,.f-film .mem .fx::after{content:"";position:absolute;left:12px;right:12px;height:8px;border-radius:2px;opacity:.5;
+  background:repeating-linear-gradient(90deg,#F3E9DD 0 8px,transparent 8px 18px)}
+.f-film .mem .fx::before{top:8px}
+.f-film .mem .fx::after{bottom:8px}
+.f-film .mem .tx{padding:10px 4px 2px}
+.f-film .mem .d{color:#F2A65A;font-family:ui-monospace,Consolas,monospace;letter-spacing:.08em}
+.f-film .mem .by{background:#3A3230;color:#F3E9DD}
+
+/* 4 奶油（韓系清新） */
+.f-cream .mem{background:#FFF8EE;padding:10px;border-radius:26px;box-shadow:0 8px 20px rgba(226,180,140,.18)}
+.f-cream .mem .pic{border-radius:20px;aspect-ratio:4/5}
+.f-cream .mem .tx{text-align:center;padding:12px 8px 8px}
+
+/* 5 郵票（文青） */
+.f-stamp .mem{border-radius:0;padding:14px 14px 0;box-shadow:none;background:
+  radial-gradient(circle,var(--bg) 4px,transparent 4.5px) 0 -6px/12px 12px repeat-x,
+  radial-gradient(circle,var(--bg) 4px,transparent 4.5px) 0 calc(100% + 6px)/12px 12px repeat-x,
+  radial-gradient(circle,var(--bg) 4px,transparent 4.5px) -6px 0/12px 12px repeat-y,
+  radial-gradient(circle,var(--bg) 4px,transparent 4.5px) calc(100% + 6px) 0/12px 12px repeat-y,#fff}
+.f-stamp .mem .pic{border-radius:0;aspect-ratio:4/5}
+.f-stamp .mem .px{display:grid;place-items:center;position:absolute;top:12px;right:12px;z-index:2;width:60px;height:60px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.9);transform:rotate(-14deg);color:#fff;font:700 13px/1 ui-monospace,Consolas,monospace;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+.f-stamp .mem .px::after{content:attr(data-d)}
+.f-stamp .mem .tx{padding:10px 2px 18px}
+.f-stamp .mem .tt{font-family:"Songti TC","PMingLiU","MingLiU",serif}
+
+/* 6 雜誌（時尚） */
+.f-magazine .mem{border-radius:0;padding:0;background:#151313;color:#fff;box-shadow:none}
+.f-magazine .mem .pic{border-radius:0;aspect-ratio:4/5}
+.f-magazine .mem .px{display:block;position:absolute;left:14px;top:12px;z-index:2;color:#fff;
+  font:800 46px/1 "Didot","Bodoni 72","Times New Roman",serif;letter-spacing:-.02em;text-shadow:0 2px 14px rgba(0,0,0,.4)}
+.f-magazine .mem .px::after{content:attr(data-d)}
+.f-magazine .mem .tx{padding:12px 16px 16px;border-top:3px solid var(--accent)}
+.f-magazine .mem .d{color:#B9B2AC;letter-spacing:.2em;font-size:11px}
+.f-magazine .mem .tt{font-size:18px;letter-spacing:.04em}
+.f-magazine .mem .by{background:#333;color:#ddd}
+
+/* 7 人生四格（韓系時尚） */
+.f-booth .mem{background:#F7D9DE;padding:12px 12px 0;border-radius:4px}
+.f-booth .mem .pic{border-radius:0;aspect-ratio:3/4;border:4px solid #fff}
+.f-booth .mem .tx{display:flex;flex-direction:column;align-items:center;padding:10px 4px 14px}
+.f-booth .mem .tx::after{content:"PHOTO  BOOTH";margin-top:8px;font:700 10px/1 ui-monospace,Consolas,monospace;letter-spacing:.32em;color:#B5677A}
+.f-booth .mem .by{background:#fff}
+
+/* 8 拱窗（韓系清新） */
+.f-arch .mem{background:#F6F0E8;padding:14px 14px 0;border-radius:24px}
+.f-arch .mem .pic{border-radius:999px 999px 14px 14px;aspect-ratio:4/5;border:5px solid #fff}
+.f-arch .mem .tx{text-align:center}
+
+/* 9 格紋（日系清新） */
+.f-gingham .mem{padding:18px 18px 0;border-radius:14px;
+  background:linear-gradient(90deg,rgba(255,255,255,.55) 50%,transparent 0) 0 0/20px 20px,
+             linear-gradient(rgba(255,255,255,.55) 50%,transparent 0) 0 0/20px 20px,var(--accent-soft)}
+.f-gingham .mem .pic{border-radius:8px;border:5px solid #fff}
+.f-gingham .mem .tx{background:#fff;margin:16px -18px 0;border-radius:0 0 14px 14px;padding:10px 18px 14px}
+
+/* 10 日期印（日系底片） */
+.f-datestamp .mem{padding:8px;border-radius:6px}
+.f-datestamp .mem .pic{border-radius:3px}
+.f-datestamp .mem .px{display:block;position:absolute;right:14px;bottom:12px;z-index:2;color:#FF8A3D;
+  font:600 16px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em;text-shadow:0 0 6px rgba(255,120,40,.9)}
+.f-datestamp .mem .px::after{content:attr(data-stamp)}
+.f-datestamp .mem .tx{padding:10px 8px 8px}
+
 /* quiz */
 .prog{height:8px;border-radius:99px;background:#F0E9E1;overflow:hidden;margin-bottom:16px}
 .prog b{display:block;height:100%;background:var(--accent);transition:width .3s}
@@ -266,6 +369,8 @@ function normalize(raw){
     theme:/^#[0-9a-fA-F]{6}$/.test(c.theme||"")?c.theme:DEFAULT_THEME,
     showCredit:!!c.showCredit, creditText:typeof c.creditText==="string"?c.creditText:"",
     demoControls:!!c.demoControls,
+    couplePhoto:typeof c.couplePhoto==="string"&&/^[\w./-]+\.(jpe?g|png|webp)$/i.test(c.couplePhoto)&&!/^\/|\.\./.test(c.couplePhoto)?c.couplePhoto:"",
+    albumFrame:["plain","polaroid","washi","film","cream","stamp","magazine","booth","arch","gingham","datestamp"].includes(c.albumFrame)?c.albumFrame:"plain",
     pet:{name:str(pet.name,"寶寶"),animal:ANIMALS.includes(pet.animal)?pet.animal:"shiba"},
     petLines:(Array.isArray(c.petLines)?c.petLines:[]).filter(s=>typeof s==="string"&&s.trim()),
     dates:arr(c.dates).filter(e=>typeof e.label==="string"&&isYmd(e.date)),
@@ -275,7 +380,7 @@ function normalize(raw){
       if(k.demo===true) return {demo:true,api:"",space:"demo"};
       const api=typeof k.api==="string"?k.api.trim().replace(/\/+$/,""):"";
       const okApi=/^https:\/\/[^\s/?#]+(\/[^\s?#]*)?$/.test(api)||/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(api);
-      return okApi&&/^[a-z0-9]{10}$/.test(k.space||"")?{demo:false,api,space:k.space}:null;
+      return okApi&&/^[a-z0-9]{10}$/.test(k.space||"")?{demo:false,api,space:k.space,imported:k.imported===true}:null;
     })(),
     letters:arr(c.letters).filter(l=>typeof l.text==="string"&&l.text.trim()&&isYmd(l.unlockDate))
       .map(l=>({title:str(l.title,"一封信"),to:typeof l.to==="string"?l.to:"",from:typeof l.from==="string"?l.from:"",unlockDate:l.unlockDate,text:l.text})),
@@ -345,6 +450,7 @@ function renderHome(){
     :`<div class="days"><small>還有</small>${1-n}<small>天</small></div><div class="note">就是我們在一起的第 1 天</div>`;
   $("#tab-home").innerHTML=`
     <div class="card hero">
+      ${CONFIG.couplePhoto&&!PREVIEW?`<img class="couple" src="${esc(CONFIG.couplePhoto)}" alt="${esc(CONFIG.couple.a)}和${esc(CONFIG.couple.b)}" onerror="this.remove()">`:""}
       <div class="names">${esc(CONFIG.couple.a)} &amp; ${esc(CONFIG.couple.b)}</div>
       <div class="heart">${HEART}</div>
       ${days}
@@ -797,9 +903,11 @@ function picHTML(m,i){
 
 /* ---------------- 雲端相簿（雙方同步） ---------------- */
 // config.js 有 cloud 設定才會啟用。配對碼只存在這支手機，不會出現在網頁或網址上。
+// cloud.imported = true：賣家建立雲端時已把預設回憶匯入雲端，連上後就以雲端為準（可以編輯、刪除）。
 const CLOUD_PHOTO_CACHE="ourdays-photos-v1";
 const MAX_UPLOAD=580*1024;                    // 雲端上限 600KB，手機端壓到 580KB 以內
 const SCENE_KEYS=["cafe","sunset","mountain","cake","movie","snow"];
+const DEMO_CODE="DEMO-1314";
 const cloudState={auth:null,list:[],usage:null,status:"idle",lastSync:0,busy:false};
 const photoURLs={};
 let albumItems=[];
@@ -807,7 +915,7 @@ function cloudKey(){return "ourdays_cloud_"+CONFIG.cloud.space;}
 function cloudLoad(){
   cloudState.auth=null; cloudState.list=[]; cloudState.usage=null; cloudState.status="idle"; cloudState.lastSync=0;
   if(!CONFIG.cloud) return;
-  if(CONFIG.cloud.demo){cloudState.auth={code:"DEMO",who:"a"};cloudState.list=demoCloud.list;cloudState.usage=demoCloud.usage();return;}
+  if(CONFIG.cloud.demo){demoCloud.seed();if(demoCloud.paired){cloudState.auth=demoCloud.paired;cloudState.list=demoCloud.list;cloudState.usage=demoCloud.usage();}return;}
   const a=store.get(cloudKey(),null);
   if(a&&typeof a.code==="string"&&(a.who==="a"||a.who==="b")) cloudState.auth=a;
   const c=store.get(cloudKey()+"_list",null);
@@ -829,6 +937,8 @@ function cloudErr(status,code){
 }
 async function readErr(res){let code="";try{code=(await res.json()).error;}catch(e){}return cloudErr(res.status,code);}
 function saveCloudList(){if(!CONFIG.cloud.demo) store.set(cloudKey()+"_list",{memories:cloudState.list,usage:cloudState.usage});}
+// 連上雲端、而且預設回憶已在雲端時，設定檔裡的回憶就不再重複顯示
+function cloudOwnsAlbum(){return !!(CONFIG.cloud&&cloudState.auth&&(CONFIG.cloud.imported||CONFIG.cloud.demo));}
 
 async function cloudSync(force){
   if(!CONFIG.cloud||!cloudState.auth||CONFIG.cloud.demo) return;
@@ -848,27 +958,31 @@ async function cloudSync(force){
 }
 
 // 照片讀取：先找手機上的快取，沒有才向雲端下載（同一張只會下載一次）
+// 照片編輯後 id 不變，所以快取的鍵加上版本（照片更新時間）
 function photoCacheOK(){return !CONFIG.cloud.demo&&window.isSecureContext&&typeof caches!=="undefined";}
-async function cloudPhotoURL(id){
-  if(photoURLs[id]) return photoURLs[id];
-  const key=cloudURL("/photos/"+id);
+function photoKey(m){return cloudURL("/photos/"+m.id)+"?v="+(m.photoAt||0);}
+async function cloudPhotoURL(m){
+  const k=m.id+":"+(m.photoAt||0);
+  if(photoURLs[k]) return photoURLs[k];
+  if(m.src) return m.src;                       // 示範模式：設定檔裡的照片
   let blob=null;
-  if(photoCacheOK()){try{const hit=await (await caches.open(CLOUD_PHOTO_CACHE)).match(key);if(hit) blob=await hit.blob();}catch(e){}}
+  if(photoCacheOK()){try{const hit=await (await caches.open(CLOUD_PHOTO_CACHE)).match(photoKey(m));if(hit) blob=await hit.blob();}catch(e){}}
   if(!blob){
-    const res=await cloudFetch("/photos/"+id);
+    const res=await cloudFetch("/photos/"+m.id);
     if(!res.ok) throw new Error(res.status);
     blob=await res.blob();
-    await cachePhoto(id,blob);
+    await cachePhoto(m,blob);
   }
-  return photoURLs[id]=URL.createObjectURL(blob);
+  return photoURLs[k]=URL.createObjectURL(blob);
 }
-async function cachePhoto(id,blob){
+async function cachePhoto(m,blob){
+  photoURLs[m.id+":"+(m.photoAt||0)]=URL.createObjectURL(blob);
   if(!photoCacheOK()) return;
-  try{await (await caches.open(CLOUD_PHOTO_CACHE)).put(cloudURL("/photos/"+id),new Response(blob,{headers:{"content-type":blob.type||"image/jpeg"}}));}catch(e){}
+  try{await (await caches.open(CLOUD_PHOTO_CACHE)).put(photoKey(m),new Response(blob,{headers:{"content-type":blob.type||"image/jpeg"}}));}catch(e){}
 }
-async function uncachePhotos(ids){
+async function uncachePhotos(ms){
   if(!photoCacheOK()) return;
-  try{const c=await caches.open(CLOUD_PHOTO_CACHE);await Promise.all(ids.map(id=>c.delete(cloudURL("/photos/"+id))));}catch(e){}
+  try{const c=await caches.open(CLOUD_PHOTO_CACHE);await Promise.all(ms.map(m=>c.delete(photoKey(m))));}catch(e){}
 }
 
 // 在手機上壓縮：長邊最多 1600px、存成 JPEG，順便去掉拍攝地點等資訊
@@ -897,22 +1011,37 @@ async function compressImage(file){
   }
 }
 
-// 示範模式（cloud: { demo: true }）：不連網，新增的內容只留在這個畫面
+// 示範模式（cloud: { demo: true }）：不連網，配對碼固定為 DEMO-1314，
+// 設定檔裡的回憶當作雲端資料，可以新增、編輯、刪除，重新整理就恢復原狀
 const demoCloud={
-  list:[], photos:{}, max:100,
+  list:[], photos:{}, max:100, paired:null, seeded:false,
+  seed(){
+    if(this.seeded) return; this.seeded=true;
+    this.list=CONFIG.album.map((m,i)=>({id:"demo"+String(i).padStart(12,"0"),date:m.date,title:m.title,text:m.text||"",author:"",
+      hasPhoto:!!m.photo,src:m.photo||"",scene:m.scene||"",photoAt:0,createdAt:i}));
+  },
   usage(){return {memories:this.list.length,photos:this.list.filter(m=>m.hasPhoto).length,maxPhotos:this.max,expiresAt:Date.now()+3*365*DAY,readOnly:false};},
   async handle(path,opt){
     const j=(d,s)=>new Response(JSON.stringify(d),{status:s||200,headers:{"content-type":"application/json"}});
-    if(path==="/memories"&&(opt.method||"GET")==="GET") return j({memories:this.list,usage:this.usage()});
-    if(path==="/memories"&&opt.method==="POST"){
-      const f=opt.body, photo=f.get("photo"), id=Math.random().toString(36).slice(2,10).padEnd(16,"x");
+    const method=opt.method||"GET";
+    if(path==="/login") return String(opt.code).toUpperCase().replace(/[^0-9A-Z]/g,"")==="DEMO1314"?j({ok:true,usage:this.usage()}):j({error:"bad_code"},401);
+    if(path==="/memories"&&method==="GET") return j({memories:this.list,usage:this.usage()});
+    if(path==="/memories"&&method==="POST"){
+      const f=opt.body, photo=f.get("photo"), id=("d"+Math.random().toString(36).slice(2)).padEnd(16,"x").slice(0,16);
       if(photo&&this.usage().photos>=this.max) return j({error:"photo_limit"},409);
-      const m={id,date:f.get("date"),title:f.get("title"),text:f.get("text")||"",author:f.get("author")||"",hasPhoto:!!photo,createdAt:Date.now()};
+      const m={id,date:f.get("date"),title:f.get("title"),text:f.get("text")||"",author:f.get("author")||"",hasPhoto:!!photo,src:"",scene:"",photoAt:photo?Date.now():0,createdAt:Date.now()};
       if(photo) this.photos[id]=photo;
       this.list.unshift(m); return j({memory:m,usage:this.usage()},201);
     }
-    const mDel=/^\/memories\/(\w+)$/.exec(path);
-    if(mDel&&opt.method==="DELETE"){this.list=this.list.filter(m=>m.id!==mDel[1]);delete this.photos[mDel[1]];return j({ok:true,usage:this.usage()});}
+    const mm=/^\/memories\/(\w+)$/.exec(path), m=mm&&this.list.find(x=>x.id===mm[1]);
+    if(mm&&method==="DELETE"){this.list=this.list.filter(x=>x.id!==mm[1]);delete this.photos[mm[1]];return j({ok:true,usage:this.usage()});}
+    if(m&&method==="POST"){
+      const f=opt.body, photo=f.get("photo");
+      m.date=f.get("date"); m.title=f.get("title"); m.text=f.get("text")||"";
+      if(photo){m.hasPhoto=true;m.src="";m.photoAt=Date.now();this.photos[m.id]=photo;}
+      else if(f.get("removePhoto")==="1"){m.hasPhoto=false;m.src="";delete this.photos[m.id];}
+      return j({memory:Object.assign({},m),usage:this.usage()});
+    }
     const mPh=/^\/photos\/(\w+)$/.exec(path);
     if(mPh&&this.photos[mPh[1]]) return new Response(this.photos[mPh[1]]);
     return j({error:"not_found"},404);
@@ -922,28 +1051,54 @@ const demoCloud={
 function whoName(w){return w==="b"?CONFIG.couple.b:CONFIG.couple.a;}
 function cloudUnpair(silent){
   if(!silent&&!confirm("解除後，這支手機就看不到雲端相簿了（雲端上的資料不會被刪除）。確定嗎？")) return;
-  const ids=cloudState.list.filter(m=>m.hasPhoto).map(m=>m.id);
-  uncachePhotos(ids);
-  store.set(cloudKey(),null); store.set(cloudKey()+"_list",null);
-  try{localStorage.removeItem(cloudKey());localStorage.removeItem(cloudKey()+"_list");}catch(e){}
+  if(CONFIG.cloud.demo){demoCloud.paired=null;}
+  else{
+    uncachePhotos(cloudState.list.filter(m=>m.hasPhoto));
+    store.set(cloudKey(),null); store.set(cloudKey()+"_list",null);
+    try{localStorage.removeItem(cloudKey());localStorage.removeItem(cloudKey()+"_list");}catch(e){}
+  }
   cloudState.auth=null; cloudState.list=[]; cloudState.usage=null;
   if(!silent){renderCloudPanel();renderAlbumList();}
 }
 
+/* ---------------- 相框 ---------------- */
+// 10 款相框（日系、韓系；清新、文青、時尚），每支手機可以自己換，預設看 config.albumFrame
+const FRAMES=[["plain","簡約"],["polaroid","拍立得"],["washi","和紙膠帶"],["film","底片"],["cream","奶油"],["stamp","郵票"],
+  ["magazine","雜誌"],["booth","人生四格"],["arch","拱窗"],["gingham","格紋"],["datestamp","日期印"]];
+const FRAME_KEY="ourdays_frame";
+function currentFrame(){
+  const f=store.get(FRAME_KEY,null);
+  return FRAMES.some(x=>x[0]===f)?f:CONFIG.albumFrame;
+}
+function renderFramePicker(){
+  const box=$("#framePick"); if(!box) return;
+  const cur=currentFrame();
+  box.innerHTML=FRAMES.map(([k,n])=>`<button class="${k===cur?"on":""}" data-f="${k}" aria-pressed="${k===cur}">${n}</button>`).join("");
+  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+    store.set(FRAME_KEY,b.dataset.f); renderFramePicker(); renderAlbumList();
+  }));
+}
+function stampText(d){return "'"+d.slice(2,4)+" "+(+d.slice(5,7))+" "+(+d.slice(8,10));}
+
 /* ---------------- 相簿畫面 ---------------- */
 function renderAlbum(){
   $("#tab-album").innerHTML=`<h2 style="margin:0 4px 14px;font-size:22px">我們的回憶</h2>
-    <div id="cloudPanel"></div><div class="tl" id="albumList"></div><p class="cloudfoot" id="cloudFoot"></p>`;
-  renderCloudPanel(); renderAlbumList();
+    <div id="cloudPanel"></div>
+    <div class="framebar"><span>相框</span><div class="framepick" id="framePick" role="group" aria-label="相框款式"></div></div>
+    <div class="tl" id="albumList"></div><p class="cloudfoot" id="cloudFoot"></p>`;
+  renderCloudPanel(); renderFramePicker(); renderAlbumList();
 }
+let editing=null, keepPhoto=false;
 function renderCloudPanel(msg){
   const box=$("#cloudPanel"); if(!box) return;
   const cl=CONFIG.cloud;
+  editing=null; keepPhoto=false;
   if(!cl||PREVIEW){box.innerHTML="";$("#cloudFoot").innerHTML="";return;}
   if(!cloudState.auth){
     box.innerHTML=`<div class="card cloud">
       <h3>連接我們的雲端相簿</h3>
-      <p class="sub">輸入賣家給你們的配對碼。兩個人的手機都連上後，新增的回憶會同步給對方。</p>
+      <p class="sub">輸入賣家給你們的配對碼。兩個人的手機都連上後，就能一起新增、修改回憶，並同步給對方。</p>
+      ${cl.demo?`<p class="demohint">示範配對碼：<b>${DEMO_CODE}</b></p>`:""}
       <div class="form" style="margin-top:12px">
         <label>配對碼<input id="pairCode" placeholder="例如 ABCD-EFGH" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12"></label>
         <label>我是<select id="pairWho"><option value="a">${esc(CONFIG.couple.a)}</option><option value="b">${esc(CONFIG.couple.b)}</option></select></label>
@@ -960,33 +1115,53 @@ function renderCloudPanel(msg){
       <button class="btn" id="addMemBtn">新增回憶</button></div>
     <div id="cloudBanner"></div>
     <div class="form hidden" id="memForm" style="margin-top:14px">
+      <b id="formTitle" style="font-size:15px">新增回憶</b>
       <label>日期<input id="mDate" type="date"></label>
       <label>標題<input id="mTitle" maxlength="20" placeholder="例如：第一次一起看海"></label>
       <label>想說的話（選填）<textarea id="mText" maxlength="200" rows="3" placeholder="最多 200 字"></textarea></label>
       <div><input type="file" id="mPhoto" accept="image/*" class="vh"><label for="mPhoto" class="btn ghost pick" id="mPick">選擇照片（選填）</label></div>
       <div id="mPrev"></div>
-      <button class="btn" id="mSave">新增</button>
+      <div class="formacts"><button class="btn ghost" id="mCancel">取消</button><button class="btn" id="mSave">新增</button></div>
     </div>
     <p class="msg" id="memMsg" role="status"></p></div>`;
-  $("#cloudFoot").innerHTML=cl.demo?"示範模式：新增的回憶只留在這個畫面，不會上傳。"
-    :`這支手機以「${esc(whoName(cloudState.auth.who))}」的身分連接・<button id="unpairBtn">解除連接</button>`;
-  if(!cl.demo) $("#unpairBtn").addEventListener("click",()=>cloudUnpair(false));
+  $("#cloudFoot").innerHTML=(cl.demo?"示範模式：修改只留在這個畫面，重新整理就會恢復。・":"")+
+    `這支手機以「${esc(whoName(cloudState.auth.who))}」的身分連接・<button id="unpairBtn">解除連接</button>`;
+  $("#unpairBtn").addEventListener("click",()=>cloudUnpair(false));
   $("#addMemBtn").addEventListener("click",()=>{
-    const f=$("#memForm"), open=f.classList.toggle("hidden")===false;
-    $("#addMemBtn").textContent=open?"收起":"新增回憶";
-    if(open&&!$("#mDate").value){const t=today0();$("#mDate").value=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;}
+    if($("#memForm").classList.contains("hidden")) openForm(null); else closeForm();
   });
-  $("#mPhoto").addEventListener("change",()=>{
-    const f=$("#mPhoto").files[0], pv=$("#mPrev");
-    if(pv.dataset.url) URL.revokeObjectURL(pv.dataset.url);
-    if(!f){pv.innerHTML="";pv.dataset.url="";$("#mPick").textContent="選擇照片（選填）";return;}
-    const u=URL.createObjectURL(f); pv.dataset.url=u;
-    pv.innerHTML=`<div class="mprev"><img src="${u}" alt="預覽"><button class="del" id="mClear">移除照片</button></div>`;
-    $("#mPick").textContent="換一張照片";
-    $("#mClear").addEventListener("click",()=>{$("#mPhoto").value="";$("#mPhoto").dispatchEvent(new Event("change"));});
-  });
-  $("#mSave").addEventListener("click",cloudAdd);
+  $("#mCancel").addEventListener("click",closeForm);
+  $("#mPhoto").addEventListener("change",()=>{if($("#mPhoto").files[0]) keepPhoto=false;renderPreview();});
+  $("#mSave").addEventListener("click",cloudSave);
   renderCloudStatus();
+}
+function todayYmd(){const t=today0();return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}`;}
+function openForm(m){
+  editing=m||null; keepPhoto=!!(m&&m.hasPhoto);
+  $("#memForm").classList.remove("hidden"); $("#memMsg").textContent="";
+  $("#formTitle").textContent=m?"編輯回憶":"新增回憶";
+  $("#mSave").textContent=m?"儲存修改":"新增";
+  $("#addMemBtn").textContent="收起";
+  $("#mDate").value=m?m.date:todayYmd(); $("#mTitle").value=m?m.title:""; $("#mText").value=m?(m.text||""):"";
+  $("#mPhoto").value=""; renderPreview();
+  $("#cloudPanel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function closeForm(){
+  editing=null; keepPhoto=false;
+  $("#memForm").classList.add("hidden"); $("#addMemBtn").textContent="新增回憶";
+  $("#mPhoto").value=""; renderPreview();
+}
+function renderPreview(){
+  const pv=$("#mPrev"), f=$("#mPhoto").files[0];
+  if(pv.dataset.url){URL.revokeObjectURL(pv.dataset.url);pv.dataset.url="";}
+  const show=src=>{
+    pv.innerHTML=`<div class="mprev"><img src="${src}" alt="預覽"><button class="del" id="mClear">移除照片</button></div>`;
+    $("#mPick").textContent="換一張照片";
+    $("#mClear").addEventListener("click",()=>{keepPhoto=false;$("#mPhoto").value="";renderPreview();});
+  };
+  if(f){const u=URL.createObjectURL(f);pv.dataset.url=u;show(u);return;}
+  if(keepPhoto&&editing){pv.innerHTML="";cloudPhotoURL(editing).then(u=>{if(keepPhoto&&editing) show(u);}).catch(()=>{});return;}
+  pv.innerHTML=""; $("#mPick").textContent="選擇照片（選填）";
 }
 function renderCloudStatus(){
   const u=$("#cloudUsage"); if(!u) return;
@@ -1010,20 +1185,22 @@ async function cloudPair(){
     const res=await cloudFetch("/login",{method:"POST",code});
     if(!res.ok){msg.className="msg err";msg.textContent=await readErr(res);return;}
     const d=await res.json();
-    cloudState.auth={code,who}; cloudState.usage=d.usage; store.set(cloudKey(),cloudState.auth);
-    renderCloudPanel(); cloudSync(true);
+    cloudState.auth={code,who}; cloudState.usage=d.usage;
+    if(CONFIG.cloud.demo){demoCloud.paired=cloudState.auth;cloudState.list=demoCloud.list;}
+    else store.set(cloudKey(),cloudState.auth);
+    renderCloudPanel(); renderAlbumList(); cloudSync(true);
   }catch(e){msg.className="msg err";msg.textContent=cloudErr(0);}
   finally{cloudState.busy=false;const b=$("#pairBtn");if(b) b.disabled=false;}
 }
-async function cloudAdd(){
+async function cloudSave(){
   if(cloudState.busy) return;
-  const msg=$("#memMsg"), btn=$("#mSave");
+  const msg=$("#memMsg"), btn=$("#mSave"), ed=editing;
   const say=(t,err)=>{msg.className="msg"+(err?" err":"");msg.textContent=t;};
   const date=$("#mDate").value, title=$("#mTitle").value.trim(), text=$("#mText").value.trim(), file=$("#mPhoto").files[0];
   if(!isYmd(date)){say("請選日期。",true);return;}
   if(!title){say("請填標題。",true);return;}
-  const us=cloudState.usage;
-  if(file&&us&&us.photos>=us.maxPhotos){say(cloudErr(409,"photo_limit"),true);return;}
+  const us=cloudState.usage, addsPhoto=file&&!(ed&&ed.hasPhoto);
+  if(addsPhoto&&us&&us.photos>=us.maxPhotos){say(cloudErr(409,"photo_limit"),true);return;}
   cloudState.busy=true; btn.disabled=true;
   try{
     let blob=null;
@@ -1032,22 +1209,23 @@ async function cloudAdd(){
       try{blob=await compressImage(file);}
       catch(e){say("這張照片無法處理，請換一張，或先截圖再上傳。",true);return;}
     }
-    say("上傳中…");
+    say(ed?"儲存中…":"上傳中…");
     const fd=new FormData();
-    fd.append("date",date); fd.append("title",title); fd.append("text",text); fd.append("author",whoName(cloudState.auth.who));
+    fd.append("date",date); fd.append("title",title); fd.append("text",text);
+    if(!ed) fd.append("author",whoName(cloudState.auth.who));
     if(blob) fd.append("photo",blob,"photo.jpg");
+    else if(ed&&ed.hasPhoto&&!keepPhoto) fd.append("removePhoto","1");
     let res;
-    try{res=await cloudFetch("/memories",{method:"POST",body:fd});}catch(e){say(cloudErr(0),true);return;}
+    try{res=await cloudFetch(ed?"/memories/"+ed.id:"/memories",{method:"POST",body:fd});}catch(e){say(cloudErr(0),true);return;}
     if(!res.ok){say(await readErr(res),true);if(res.status===403) cloudSync(true);return;}
     const d=await res.json();
-    if(blob){await cachePhoto(d.memory.id,blob);photoURLs[d.memory.id]=URL.createObjectURL(blob);}
-    if(!CONFIG.cloud.demo) cloudState.list=[d.memory].concat(cloudState.list.filter(m=>m.id!==d.memory.id));
-    else cloudState.list=demoCloud.list;
+    if(blob) await cachePhoto(d.memory,blob);
+    if(ed&&ed.hasPhoto&&(blob||!keepPhoto)) uncachePhotos([ed]);
+    if(CONFIG.cloud.demo) cloudState.list=demoCloud.list;
+    else cloudState.list=[d.memory].concat(cloudState.list.filter(m=>m.id!==d.memory.id));
     cloudState.usage=d.usage; saveCloudList();
-    $("#mTitle").value=""; $("#mText").value=""; $("#mPhoto").value=""; $("#mPhoto").dispatchEvent(new Event("change"));
-    $("#memForm").classList.add("hidden"); $("#addMemBtn").textContent="新增回憶";
-    renderCloudStatus(); renderAlbumList();
-    say(CONFIG.cloud.demo?"已新增（示範模式不會上傳）。":"已新增！對方打開相簿就會看到。");
+    closeForm(); renderCloudStatus(); renderAlbumList();
+    say(ed?"已儲存修改，對方也會看到。":(CONFIG.cloud.demo?"已新增（示範模式不會上傳）。":"已新增！對方打開相簿就會看到。"));
   }finally{cloudState.busy=false;btn.disabled=false;}
 }
 async function cloudDelete(m,close){
@@ -1057,23 +1235,25 @@ async function cloudDelete(m,close){
   if(!res.ok&&res.status!==404){alert(await readErr(res));return;}
   try{const d=await res.json();if(d.usage) cloudState.usage=d.usage;}catch(e){}
   cloudState.list=CONFIG.cloud.demo?demoCloud.list:cloudState.list.filter(x=>x.id!==m.id);
-  if(m.hasPhoto){uncachePhotos([m.id]);if(photoURLs[m.id]){URL.revokeObjectURL(photoURLs[m.id]);delete photoURLs[m.id];}}
+  if(m.hasPhoto) uncachePhotos([m]);
   saveCloudList(); close(); renderCloudStatus(); renderAlbumList();
 }
 
 function cloudPicHTML(m){
   if(!m.hasPhoto){
+    if(SCENE_KEYS.includes(m.scene)) return sceneSVG(m.scene,"c"+m.id);
     let h=0; for(const ch of m.id) h=(h*31+ch.charCodeAt(0))>>>0;
     return sceneSVG(SCENE_KEYS[h%SCENE_KEYS.length],"c"+m.id);
   }
-  return `<div class="cpic" data-cid="${esc(m.id)}">${photoHolder("載入中")}</div>`;
+  if(m.src) return `<img src="${esc(m.src)}" alt="${esc(m.title)}" loading="lazy">`;
+  return `<div class="cpic" data-cid="${esc(m.id)}" data-v="${m.photoAt||0}">${photoHolder("載入中")}</div>`;
 }
 let picObserver=null;
 function hydrate(root){
   const els=root.querySelectorAll(".cpic[data-cid]:not([data-done])");
   const load=el=>{
     el.dataset.done="1";
-    cloudPhotoURL(el.dataset.cid).then(u=>{el.innerHTML=`<img src="${u}" alt="">`;})
+    cloudPhotoURL({id:el.dataset.cid,photoAt:+el.dataset.v}).then(u=>{el.innerHTML=`<img src="${u}" alt="">`;})
       .catch(()=>{el.innerHTML=photoHolder("暫時無法載入");});
   };
   if(!("IntersectionObserver" in window)){els.forEach(load);return;}
@@ -1082,15 +1262,17 @@ function hydrate(root){
 }
 function renderAlbumList(){
   const box=$("#albumList"); if(!box) return;
-  const items=CONFIG.album.map(m=>Object.assign({kind:"s"},m))
+  const items=(cloudOwnsAlbum()?[]:CONFIG.album.map(m=>Object.assign({kind:"s"},m)))
     .concat((CONFIG.cloud&&cloudState.auth?cloudState.list:[]).map(m=>Object.assign({kind:"c"},m)));
   items.sort((a,b)=>a.date<b.date?1:(a.date>b.date?-1:(b.createdAt||0)-(a.createdAt||0)));
   albumItems=items;
+  box.className="tl f-"+currentFrame();
   box.innerHTML=items.map((m,i)=>`<div class="card mem" data-i="${i}" role="button" tabindex="0">
-      <div class="pic">${m.kind==="c"?cloudPicHTML(m):picHTML(m,i)}</div>
+      <i class="fx" aria-hidden="true"></i>
+      <div class="pic"><i class="px" aria-hidden="true" data-stamp="${esc(stampText(m.date))}" data-d="${esc(m.date.slice(5).replace("-","."))}"></i>${m.kind==="c"?cloudPicHTML(m):picHTML(m,i)}</div>
       <div class="tx"><div class="d">${fmt(parseDate(m.date))}${m.kind==="c"&&m.author?`<span class="by">${esc(m.author)} 新增</span>`:""}</div>
       <div class="tt">${esc(m.title)}</div></div></div>`).join("")
-    ||'<p style="color:var(--muted);margin:0 4px">還沒有回憶。</p>';
+    ||'<p style="color:var(--muted);margin:0 4px">還沒有回憶，按上面的「新增回憶」開始吧。</p>';
   box.querySelectorAll(".mem").forEach(el=>{
     const open=()=>openMem(albumItems[+el.dataset.i],+el.dataset.i);
     el.addEventListener("click",open);
@@ -1101,15 +1283,19 @@ function renderAlbumList(){
 function openMem(m,i){
   const md=document.createElement("div");
   md.className="modal"; md.setAttribute("role","dialog"); md.setAttribute("aria-modal","true"); md.setAttribute("aria-label",m.title);
-  const cloudItem=m.kind==="c";
+  const cloudItem=m.kind==="c", ro=!!(cloudState.usage&&cloudState.usage.readOnly);
   md.innerHTML=`<div class="card"><div class="pic">${cloudItem?cloudPicHTML(m):picHTML(m,"m"+i)}</div><div class="tx">
     <div style="font-size:12px;color:var(--muted)">${fmt(parseDate(m.date))}${cloudItem&&m.author?`・${esc(m.author)} 新增`:""}</div>
     <h3 style="font-size:18px">${esc(m.title)}</h3><p>${esc(m.text||"")}</p>
-    ${cloudItem?'<button class="del delmem" id="delMem">刪除這則回憶</button>':""}</div></div>`;
+    ${cloudItem?`<div class="memacts">${ro?"":'<button class="btn ghost" id="editMem">編輯</button>'}<button class="del delmem" id="delMem">刪除這則回憶</button></div>`:""}</div></div>`;
   const close=()=>{md.remove();document.removeEventListener("keydown",onKey);};
   const onKey=e=>{if(e.key==="Escape")close();};
-  md.addEventListener("click",e=>{if(e.target.closest("#delMem")) return;close();});
-  if(cloudItem) md.querySelector("#delMem").addEventListener("click",()=>cloudDelete(m,close));
+  md.addEventListener("click",e=>{if(e.target.closest(".memacts")) return;close();});
+  if(cloudItem){
+    md.querySelector("#delMem").addEventListener("click",()=>cloudDelete(m,close));
+    const ed=md.querySelector("#editMem");
+    if(ed) ed.addEventListener("click",()=>{close();openForm(cloudState.list.find(x=>x.id===m.id)||m);});
+  }
   document.addEventListener("keydown",onKey);
   document.body.appendChild(md);
   hydrate(md);

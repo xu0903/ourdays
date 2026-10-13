@@ -10,7 +10,10 @@ window.CONFIG = {
   couple: { a: "小晴", b: "阿哲" },
   startDate: "2023-02-14",             // 在一起的第 1 天
   heroNote: "從第一天到現在，謝謝你一直都在。",
-  theme: "#E26D5C",                    // 主色（#RRGGBB），按鈕、愛心、寵物圍巾都會跟著變
+  theme: "#E26D5C",
+  couplePhoto: "photos/couple.jpg",    // 首頁大頭貼（正方形）。App 圖示用 scripts/photo_tool.py icons 產生
+  albumFrame: "polaroid",              // 相簿預設相框：plain 簡約 | polaroid 拍立得 | washi 和紙膠帶 | film 底片 | cream 奶油
+                                       //   stamp 郵票 | magazine 雜誌 | booth 人生四格 | arch 拱窗 | gingham 格紋 | datestamp 日期印                    // 主色（#RRGGBB），按鈕、愛心、寵物圍巾都會跟著變
   showCredit: true,                    // 交付給客人時改成 false
   creditText: "示範版・晨利數位工作室",
   demoControls: true,                  // 示範用控制列；交付時改成 false
@@ -41,16 +44,20 @@ window.CONFIG = {
   ],
 
   // 雲端相簿（雙方同步）：交付時用 python scripts/cloud_admin.py create --config 這個檔案 自動填入
-  // 示範用 { demo: true }：不連網，新增的回憶只留在畫面上
+  // 示範用 { demo: true }：不連網，配對碼 DEMO-1314，修改只留在畫面上
   cloud: { demo: true },
 
   album: [
-    { date: "2023-02-14", title: "第一次約會", text: "你緊張到把咖啡打翻，我卻覺得那天特別好。", scene: "cafe" },
-    { date: "2023-04-02", title: "一起看夕陽", text: "那天風很大，你的外套借我披了一整路。", scene: "sunset" },
-    { date: "2023-08-12", title: "第一次出遠門", text: "迷路了兩次，卻笑得比任何時候都多。", scene: "mountain" },
-    { date: "2023-11-03", title: "你的生日", text: "蠟燭吹了三次才熄，許的願望我偷偷聽到了。", scene: "cake" },
-    { date: "2024-01-20", title: "跨年看電影", text: "票根我還留著，夾在筆記本裡。", scene: "movie" },
-    { date: "2024-12-25", title: "第一場雪", text: "你說要堆一個小雪人，結果它只有手掌大。", scene: "snow" }
+    { date: "2023-02-14", title: "第一次約會", text: "那天風很大，你一直在整理頭髮，我一直在偷看你。", photo: "photos/01.jpg" },
+    { date: "2023-02-14", title: "換我擺姿勢", text: "你說輪到我了，結果我只會靠著欄杆比讚。", photo: "photos/02.jpg" },
+    { date: "2023-04-02", title: "點太多的晚餐", text: "兩個人點了四道菜，最後打包了一半回家。", photo: "photos/03.jpg" },
+    { date: "2023-06-18", title: "那朵雲像小狗", text: "你指著天空說像小狗，我看了很久，只看到你。", photo: "photos/04.jpg" },
+    { date: "2023-06-18", title: "一起等夕陽", text: "太陽下山前，我們都沒有說話，但一點也不尷尬。", photo: "photos/05.jpg" },
+    { date: "2023-11-03", title: "愛心鏡子", text: "你說這面鏡子一定要拍，結果我們拍了三十張。", photo: "photos/06.jpg" },
+    { date: "2024-01-20", title: "巨大的朋友", text: "它比想像中大好多，你笑到手機都拿不穩。", photo: "photos/07.jpg" },
+    { date: "2024-05-11", title: "週末的咖啡廳", text: "你看雜誌，我看你。", photo: "photos/08.jpg" },
+    { date: "2024-08-24", title: "一起追夕陽", text: "你說下次要來看日出，我記下來了。", photo: "photos/09.jpg" },
+    { date: "2024-12-25", title: "散步到很晚", text: "路燈亮起來的時候，才發現已經走了好遠。", photo: "photos/10.jpg" }
   ],
 
   // answer 是正確選項的索引，從 0 開始
