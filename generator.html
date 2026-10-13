@@ -39,6 +39,16 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent-soft);bor
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .hint{font-size:12px;color:var(--muted)}
 .swatches{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tchip{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px solid var(--line);background:#fff;border-radius:14px;padding:8px 2px;font-size:12px;color:var(--ink)}
+.tchip.on{border-color:var(--accent)}
+.tchip i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.tchip i b{width:16px;height:16px;border-radius:50%}
+.tchip i.rainbow{background:conic-gradient(#F6B9A0,#F7D9DE,#CFE3D9,#CFE0F2,#E3D9F2,#FFF0C8,#F6B9A0)}
+.customrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.customrow .custom{display:flex;gap:6px;align-items:center}
+.customrow input[type=color]{width:40px;min-width:40px;height:38px;padding:2px}
+.customrow input:not([type]){font-family:ui-monospace,Consolas,monospace;text-transform:uppercase;padding:8px;min-width:0}
 .swatch{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
 .swatch.on{box-shadow:0 0 0 2px var(--ink)}
 .swatches .custom{display:flex;align-items:center;gap:6px}
@@ -109,8 +119,12 @@ pre{white-space:pre-wrap;word-break:break-all;background:#FFF6F1;border-radius:1
     </div>
   </section>
 
-  <section class="card"><h2><span class="no">2</span>主題色</h2>
-    <div class="swatches" id="swatches"></div>
+  <section class="card"><h2><span class="no">2</span>主題</h2>
+    <div class="themes" id="themes"></div>
+    <div class="customrow hidden" id="customTheme">
+      <label>主色<span class="custom"><input type="color" id="themeCustom" aria-label="自訂主色"><input id="themeHex" maxlength="7" spellcheck="false" autocapitalize="characters" aria-label="主色色碼"></span></label>
+      <label>背景色<span class="custom"><input type="color" id="bgCustom" aria-label="自訂背景色"><input id="bgHex" maxlength="7" spellcheck="false" autocapitalize="characters" aria-label="背景色碼"></span></label>
+    </div>
     <p class="hint" id="themeHint" style="margin-top:8px"></p>
   </section>
 
@@ -189,14 +203,17 @@ pre{white-space:pre-wrap;word-break:break-all;background:#FFF6F1;border-radius:1
 /* 產生器：純前端，不做任何網路請求。草稿只存在這台裝置的 localStorage。 */
 const $=s=>document.querySelector(s);
 const DRAFT_KEY="ourdays_generator_draft_v1";
-const PRESETS=[["#E26D5C","珊瑚紅"],["#E07A9A","玫瑰粉"],["#D9894A","焦糖橘"],["#6E9F7F","抹茶綠"],["#5E8FC4","霧藍"],["#8A74C0","薰衣草"]];
+// 和網頁裡「設定」的 7 種主題相同：[代號, 名稱, 背景色, 主色]
+const THEMES=[["milk","奶茶","#FBF4EC","#E26D5C"],["sakura","櫻花","#FFF0F3","#E0708A"],["mint","薄荷","#EEF7F1","#4E9A7A"],
+  ["sky","天空","#EEF4FB","#5B8CC9"],["lavender","薰衣草","#F4F0FA","#8A6FC0"],["lemon","檸檬","#FFF8E4","#C4862B"],["oat","燕麥","#F3F0EB","#8C7B6B"]];
+const DEFAULT_BG="#FBF4EC";
 const SCENES=[["cafe","咖啡店"],["sunset","夕陽"],["mountain","山景"],["cake","蛋糕"],["movie","電影"],["snow","下雪"]];
 const blankDate=()=>({label:"",date:"",type:"other",repeat:"once"});
 const blankMem=()=>({date:"",title:"",text:"",photo:true,scene:"cafe"});
 const blankQ=()=>({q:"",options:["","",""],answer:0});
 const blankLetter=()=>({to:"",from:"",title:"",unlockDate:"",text:""});
 function fresh(){
-  return {a:"",b:"",startDate:"",heroNote:"",title:"",theme:"#E26D5C",animal:"shiba",petName:"",petLines:"",
+  return {a:"",b:"",startDate:"",heroNote:"",title:"",theme:"#E26D5C",bg:DEFAULT_BG,custom:false,animal:"shiba",petName:"",petLines:"",
     dates:[{label:"",date:"",type:"birthday",repeat:"yearly"},{label:"",date:"",type:"birthday",repeat:"yearly"}],
     album:[blankMem()],quiz:[blankQ()],r:["","",""],letters:[],couple:false,albumFrame:"polaroid"};
 }
@@ -299,6 +316,7 @@ function build(){
     startDate:S.startDate,
     heroNote:S.heroNote.trim(),
     theme:S.theme.toUpperCase(),
+    ...(S.bg.toUpperCase()!==DEFAULT_BG?{bg:S.bg.toUpperCase()}:{}),
     ...(S.couple?{couplePhoto:"photos/couple.jpg"}:{}),
     albumFrame:S.albumFrame,
     showCredit:false, creditText:"", demoControls:false,
@@ -339,23 +357,38 @@ document.querySelectorAll('input[name=animal]').forEach(r=>{
 });
 // 支援顏色選擇器的瀏覽器會把不合法的值自動改成 #000000
 const COLOR_OK=(()=>{try{const i=document.createElement("input");i.type="color";i.value="x";return i.type==="color"&&i.value!=="x";}catch(e){return false;}})();
+function themeOf(){return S.custom?null:THEMES.find(t=>t[2]===S.bg.toUpperCase()&&t[3]===S.theme.toUpperCase());}
 function renderSwatches(){
-  const box=$("#swatches");
-  box.innerHTML=PRESETS.map(([c,n])=>`<button class="swatch ${c.toUpperCase()===S.theme.toUpperCase()?"on":""}" data-c="${c}" style="background:${c}" aria-label="${n}" title="${n}"></button>`).join("")+
-    `<span class="custom"><input type="color" id="themeCustom" value="${S.theme.toLowerCase()}" aria-label="自訂顏色"${COLOR_OK?"":' class="hidden"'}>
-      <input id="themeHex" value="${S.theme.toUpperCase()}" maxlength="7" spellcheck="false" autocapitalize="characters" aria-label="自訂色碼（例如 #E26D5C）"></span>`;
-  box.querySelectorAll(".swatch").forEach(b=>b.addEventListener("click",()=>{S.theme=b.dataset.c;renderSwatches();changed();}));
-  $("#themeCustom").addEventListener("input",e=>{S.theme=e.target.value;changed();});
-  $("#themeCustom").addEventListener("change",()=>renderSwatches());
-  // 有些瀏覽器不支援顏色選擇器，可以直接輸入色碼
-  $("#themeHex").addEventListener("input",e=>{
-    let v=e.target.value.trim(); if(v&&v[0]!=="#") v="#"+v;
-    if(/^#[0-9a-fA-F]{6}$/.test(v)){S.theme=v.toUpperCase();$("#themeCustom").value=v.toLowerCase();changed();}
+  const cur=themeOf(), box=$("#themes");
+  box.innerHTML=THEMES.map(([k,n,bg,ac])=>`<button class="tchip ${cur&&cur[0]===k?"on":""}" data-k="${k}" aria-pressed="${!!cur&&cur[0]===k}"><i style="background:${bg}"><b style="background:${ac}"></b></i>${n}</button>`).join("")
+    +`<button class="tchip ${cur?"":"on"}" data-k="custom" aria-pressed="${!cur}"><i class="rainbow"></i>自訂</button>`;
+  box.querySelectorAll(".tchip").forEach(b=>b.addEventListener("click",()=>{
+    const t=THEMES.find(x=>x[0]===b.dataset.k);
+    if(t){S.bg=t[2];S.theme=t[3];S.custom=false;} else S.custom=true;
+    renderSwatches(); changed();
+  }));
+  $("#customTheme").classList.toggle("hidden",!!cur);
+  [["themeCustom","themeHex","theme"],["bgCustom","bgHex","bg"]].forEach(([c,h,k])=>{
+    $("#"+c).classList.toggle("hidden",!COLOR_OK);
+    $("#"+c).value=S[k].toLowerCase(); $("#"+h).value=S[k].toUpperCase();
   });
-  $("#themeHex").addEventListener("change",()=>renderSwatches());
-  const name=(PRESETS.find(p=>p[0].toUpperCase()===S.theme.toUpperCase())||[0,"自訂顏色"])[1];
-  $("#themeHint").textContent=`目前：${name}（${S.theme.toUpperCase()}），按鈕、愛心和寵物的圍巾都會用這個顏色。`;
+  $("#themeHint").textContent=cur?`目前：${cur[1]}。按鈕、愛心、寵物圍巾用主色，整個頁面用背景色。`
+    :`目前：自訂（主色 ${S.theme.toUpperCase()}、背景 ${S.bg.toUpperCase()}）。`;
 }
+// 自訂顏色：顏色選擇器與色碼欄位都可以改
+[["themeCustom","themeHex","theme"],["bgCustom","bgHex","bg"]].forEach(([c,h,k])=>{
+  const set=v=>{
+    v=v.trim(); if(v&&v[0]!=="#") v="#"+v;
+    if(!/^#[0-9a-fA-F]{6}$/.test(v)) return;
+    if(k==="bg"&&lum(v)<.55){$("#themeHint").textContent="背景色太深，文字會看不清楚，請選淺一點的顏色。";return;}
+    S[k]=v.toUpperCase(); S.custom=true;
+    $("#"+c).value=v.toLowerCase(); if(document.activeElement!==$("#"+h)) $("#"+h).value=v.toUpperCase();
+    changed();
+  };
+  $("#"+c).addEventListener("input",e=>set(e.target.value));
+  $("#"+h).addEventListener("input",e=>set(e.target.value));
+  $("#"+h).addEventListener("change",()=>renderSwatches());
+});
 function field(lbl,el){const l=document.createElement("label");l.textContent=lbl;l.appendChild(el);return l;}
 function input(type,val,on,attrs){
   const el=document.createElement(type==="textarea"?"textarea":"input");
@@ -521,6 +554,7 @@ function changed(){
   save();
   last=build();
   document.documentElement.style.setProperty("--accent",S.theme);
+  document.documentElement.style.setProperty("--bg",S.bg);
   document.documentElement.style.setProperty("--accent-soft",mix(S.theme,"#ffffff",.72));
   document.documentElement.style.setProperty("--accent-tint",mix(S.theme,"#ffffff",.86));
   renderOutput();

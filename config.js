@@ -10,10 +10,11 @@ window.CONFIG = {
   couple: { a: "小晴", b: "阿哲" },
   startDate: "2023-02-14",             // 在一起的第 1 天
   heroNote: "從第一天到現在，謝謝你一直都在。",
-  theme: "#E26D5C",
+  theme: "#E26D5C",                    // 主色（#RRGGBB），按鈕、愛心、寵物圍巾都會跟著變
+  bg: "#FBF4EC",                       // 背景色（淺色）。客人也可以在網頁的「設定」裡換 7 種主題或自訂
   couplePhoto: "photos/couple.jpg",    // 首頁大頭貼（正方形）。App 圖示用 scripts/photo_tool.py icons 產生
   albumFrame: "polaroid",              // 相簿預設相框：plain 簡約 | polaroid 拍立得 | washi 和紙膠帶 | film 底片 | cream 奶油
-                                       //   stamp 郵票 | magazine 雜誌 | booth 人生四格 | arch 拱窗 | gingham 格紋 | datestamp 日期印                    // 主色（#RRGGBB），按鈕、愛心、寵物圍巾都會跟著變
+                                       //   stamp 郵票 | magazine 雜誌 | booth 人生四格 | arch 拱窗 | gingham 格紋 | datestamp 日期印
   showCredit: true,                    // 交付給客人時改成 false
   creditText: "示範版・晨利數位工作室",
   demoControls: true,                  // 示範用控制列；交付時改成 false
