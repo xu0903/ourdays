@@ -1,0 +1,6 @@
+# 賣家工具與測試產物不放上公開 repo
+cloud/
+scripts/
+screenshots/
+__pycache__/
+.dev.vars

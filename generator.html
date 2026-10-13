@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FBF4EC">
+<title>網頁設定產生器</title>
+<style>
+:root{
+  --bg:#FBF4EC; --card:#FFFFFF; --ink:#3B2F2F; --muted:#8C7B72;
+  --accent:#E26D5C; --accent-soft:#F6D6CF; --accent-tint:#FDE8E3; --sage:#8FB8A8; --line:#EFE3D6;
+  --radius:20px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.5}
+body{min-height:100vh;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+h1,h2,h3,p{margin:0}
+.hidden{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer}
+.layout{max-width:480px;margin:0 auto;padding-top:calc(20px + env(safe-area-inset-top))}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 2px 0 var(--line);margin-bottom:14px}
+.btn{border:0;border-radius:14px;padding:11px 16px;background:var(--accent);color:#fff;font-weight:600}
+.btn.ghost{background:var(--accent-soft);color:var(--accent)}
+.btn.line{background:#fff;border:1px dashed var(--line);color:var(--muted);width:100%}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible,.swatch:focus-visible{outline:3px solid var(--accent-soft);outline-offset:2px}
+.top h1{font-size:22px}
+.top p{color:var(--muted);font-size:14px;margin-top:6px}
+.lock{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:14px;background:#E3EFEA;color:#4F8271;font-size:13px}
+.lock svg{flex:none;width:18px;height:18px;margin-top:1px}
+.card h2{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h2 .no{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:13px}
+.form{display:grid;gap:10px}
+label{font-size:13px;color:var(--muted);display:grid;gap:4px}
+input,select,textarea{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);width:100%}
+textarea{resize:vertical;min-height:72px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;color:var(--muted)}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.swatch{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
+.swatch.on{box-shadow:0 0 0 2px var(--ink)}
+.swatches .custom{display:flex;align-items:center;gap:6px}
+.swatches input[type=color]{width:46px;min-width:46px;height:38px;padding:2px;border-radius:12px;flex:none}
+#themeHex{width:104px;padding:8px 10px;font-family:ui-monospace,Consolas,monospace;text-transform:uppercase}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg label{display:block;text-align:center;padding:10px 4px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font-weight:600;font-size:14px;cursor:pointer}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-tint);color:var(--accent)}
+.seg label:has(input:focus-visible){outline:3px solid var(--accent-soft)}
+.item{border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;gap:8px;margin-bottom:10px;background:#FFFCF9}
+.item .head{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--muted)}
+.del{border:0;background:none;color:var(--muted);font-size:13px;padding:4px 6px}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink)}
+.check input{width:20px;height:20px;accent-color:var(--accent)}
+.opts{display:grid;gap:6px}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:center}
+.opt input[type=radio]{width:20px;height:20px;accent-color:var(--accent);justify-self:center}
+.msgs{display:grid;gap:6px;margin-bottom:12px}
+.msg{font-size:13px;padding:8px 12px;border-radius:12px}
+.msg.err{background:var(--accent-tint);color:#B5473A}
+.msg.warn{background:#FFF3DC;color:#8A6420}
+.msg.ok{background:#E3EFEA;color:#4F8271}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+pre{white-space:pre-wrap;word-break:break-all;background:#FFF6F1;border-radius:14px;padding:12px;font-size:13px;margin:10px 0 0;max-height:220px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;background:var(--ink);color:#fff;padding:8px 16px;border-radius:99px;font-size:14px}
+
+/* 預覽 */
+.pvbtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:15;display:flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(59,47,47,.18);padding:12px 18px}
+.pvbtn svg{width:20px;height:20px}
+.preview{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column}
+.preview .bar{display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid var(--line);background:#fff}
+.preview .bar b{font-size:15px}
+.preview iframe{flex:1;width:100%;border:0;background:var(--bg)}
+.phone{display:none}
+@media (min-width:960px){
+  body{padding-bottom:40px}
+  .layout{max-width:1000px;display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:28px;align-items:start}
+  .pvbtn{display:none}
+  .phone{display:block;position:sticky;top:20px}
+  .phone iframe{width:390px;height:780px;border:10px solid #fff;border-radius:34px;box-shadow:0 2px 0 var(--line),0 10px 30px rgba(59,47,47,.10);background:var(--bg)}
+  .phone p{text-align:center;color:var(--muted);font-size:13px;margin-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="layout">
+<main>
+  <div class="card top">
+    <h1>網頁設定產生器</h1>
+    <p>填好下面的資料，右下角可以隨時預覽。完成後按「下載 config.js」，把檔案或複製的內容傳給賣家即可。</p>
+    <div class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span>所有資料只在你的瀏覽器裡處理，不會上傳到任何地方。填到一半關掉也沒關係，這台裝置會記得草稿。</span></div>
+  </div>
+
+  <section class="card"><h2><span class="no">1</span>基本資料</h2>
+    <div class="form">
+      <div class="row2">
+        <label>你的名字<input id="a" maxlength="12" placeholder="例如：小美"></label>
+        <label>對方的名字<input id="b" maxlength="12" placeholder="例如：大明"></label>
+      </div>
+      <label>在一起的第一天<input id="startDate" type="date"></label>
+      <label>首頁的一句話<input id="heroNote" maxlength="40" placeholder="例如：謝謝你一直都在。"></label>
+      <label>網頁名稱<input id="title" maxlength="12" placeholder="我們的日子"></label>
+    </div>
+  </section>
+
+  <section class="card"><h2><span class="no">2</span>主題色</h2>
+    <div class="swatches" id="swatches"></div>
+    <p class="hint" id="themeHint" style="margin-top:8px"></p>
+  </section>
+
+  <section class="card"><h2><span class="no">3</span>寵物</h2>
+    <div class="form">
+      <div class="seg" role="radiogroup" aria-label="寵物種類">
+        <label><input type="radio" name="animal" value="shiba">柴犬</label>
+        <label><input type="radio" name="animal" value="cat">貓咪</label>
+        <label><input type="radio" name="animal" value="bunny">兔兔</label>
+      </div>
+      <label>寵物名字<input id="petName" maxlength="8" placeholder="例如：麻糬"></label>
+      <label>寵物會說的話（一行一句，可留白）<textarea id="petLines" rows="4" placeholder="今天也要一起好好吃飯喔。"></textarea></label>
+    </div>
+  </section>
+
+  <section class="card"><h2><span class="no">4</span>重要日子</h2>
+    <p class="hint" style="margin-bottom:10px">生日與紀念日當天，打開網頁會出現慶祝畫面。</p>
+    <div id="dates"></div>
+    <button class="btn line" id="addDate">新增一個日子</button>
+  </section>
+
+  <section class="card"><h2><span class="no">5</span>回憶相簿</h2>
+    <p class="hint" style="margin-bottom:10px">照片不用在這裡上傳。勾選「這則有照片」後，下面會產生照片檔名清單，再把照片照清單傳給賣家。網頁上線後，兩個人也可以在「回憶」頁自己新增（雲端相簿，雙方同步）。</p>
+    <div id="album"></div>
+    <button class="btn line" id="addAlbum">新增一則回憶</button>
+  </section>
+
+  <section class="card"><h2><span class="no">6</span>問答小遊戲</h2>
+    <p class="hint" style="margin-bottom:10px">每題 2 到 4 個選項，點選左邊圓圈標記正確答案。</p>
+    <div id="quiz"></div>
+    <button class="btn line" id="addQuiz">新增一題</button>
+    <div class="form" style="margin-top:14px">
+      <label>答對很少時的話<input id="r0" maxlength="30" placeholder="沒關係，答案之後慢慢告訴你。"></label>
+      <label>答對一半以上的話<input id="r1" maxlength="30" placeholder="還不錯，看來有好好記得。"></label>
+      <label>全部答對的話<input id="r2" maxlength="30" placeholder="全部答對！你們太了解彼此了。"></label>
+    </div>
+  </section>
+
+  <section class="card"><h2><span class="no">7</span>生日信（加購）</h2>
+    <p class="hint" style="margin-bottom:10px">信會一直顯示在首頁，但是鎖著的，到解鎖那天才能打開。解鎖前內容不會出現在畫面上（這是驚喜設計，不是加密）。</p>
+    <div id="letters"></div>
+    <button class="btn line" id="addLetter">新增一封信</button>
+  </section>
+
+  <section class="card"><h2><span class="no">8</span>完成</h2>
+    <div class="msgs" id="msgs"></div>
+    <div class="acts">
+      <button class="btn" id="dl">下載 config.js</button>
+      <button class="btn ghost" id="copy">複製設定內容</button>
+    </div>
+    <div id="photoBox" style="margin-top:16px">
+      <h3 style="font-size:15px">照片檔名清單</h3>
+      <pre id="photoList"></pre>
+      <div class="acts" style="margin-top:10px">
+        <button class="btn ghost" id="dlPhotos">下載清單</button>
+        <button class="btn ghost" id="copyPhotos">複製清單</button>
+      </div>
+    </div>
+    <button class="btn line" id="reset" style="margin-top:16px">清除全部，重新填寫</button>
+  </section>
+</main>
+<aside class="phone"><p>即時預覽</p><iframe id="pvDesk" title="網頁預覽" src="index.html?preview=1"></iframe></aside>
+</div>
+
+<button class="btn pvbtn" id="pvOpen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>預覽</button>
+<div class="preview hidden" id="pvSheet" role="dialog" aria-modal="true" aria-label="網頁預覽">
+  <div class="bar"><b>預覽</b><button class="btn ghost" id="pvClose">返回編輯</button></div>
+</div>
+
+<script>
+/* 產生器：純前端，不做任何網路請求。草稿只存在這台裝置的 localStorage。 */
+const $=s=>document.querySelector(s);
+const DRAFT_KEY="ourdays_generator_draft_v1";
+const PRESETS=[["#E26D5C","珊瑚紅"],["#E07A9A","玫瑰粉"],["#D9894A","焦糖橘"],["#6E9F7F","抹茶綠"],["#5E8FC4","霧藍"],["#8A74C0","薰衣草"]];
+const SCENES=[["cafe","咖啡店"],["sunset","夕陽"],["mountain","山景"],["cake","蛋糕"],["movie","電影"],["snow","下雪"]];
+const blankDate=()=>({label:"",date:"",type:"other",repeat:"once"});
+const blankMem=()=>({date:"",title:"",text:"",photo:true,scene:"cafe"});
+const blankQ=()=>({q:"",options:["","",""],answer:0});
+const blankLetter=()=>({to:"",from:"",title:"",unlockDate:"",text:""});
+function fresh(){
+  return {a:"",b:"",startDate:"",heroNote:"",title:"",theme:"#E26D5C",animal:"shiba",petName:"",petLines:"",
+    dates:[{label:"",date:"",type:"birthday",repeat:"yearly"},{label:"",date:"",type:"birthday",repeat:"yearly"}],
+    album:[blankMem()],quiz:[blankQ()],r:["","",""],letters:[]};
+}
+function load(){
+  try{const v=localStorage.getItem(DRAFT_KEY);if(v){const d=JSON.parse(v);if(d&&typeof d==="object") return Object.assign(fresh(),d);}}catch(e){}
+  return fresh();
+}
+let S=load();
+function save(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify(S));}catch(e){}}
+
+/* ---------- 日期與顏色 ---------- */
+function isYmd(s){
+  if(typeof s!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const [y,m,d]=s.split("-").map(Number), t=new Date(y,m-1,d);
+  return t.getFullYear()===y&&t.getMonth()===m-1&&t.getDate()===d;
+}
+// 下一次的週年日（含今天）；2/29 在非閏年用 2/28
+function nextOccurrence(ymd){
+  const [y,m,d]=ymd.split("-").map(Number), now=new Date(), t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const leap=yy=>(yy%4===0&&yy%100!==0)||yy%400===0;
+  const at=yy=>new Date(yy,m-1,(m===2&&d===29&&!leap(yy))?28:d);
+  let yy=Math.max(t0.getFullYear(),y), o=at(yy); if(o<t0) o=at(++yy);
+  return o.getFullYear()+"-"+String(o.getMonth()+1).padStart(2,"0")+"-"+String(o.getDate()).padStart(2,"0");
+}
+function lum(h){
+  const c=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));
+  return .2126*c[0]+.7152*c[1]+.0722*c[2];
+}
+function contrastWhite(h){return 1.05/(lum(h)+.05);}
+function mix(h,to,t){
+  const a=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)), b=[1,3,5].map(i=>parseInt(to.slice(i,i+2),16));
+  return "#"+a.map((v,i)=>Math.round(v+(b[i]-v)*t).toString(16).padStart(2,"0")).join("");
+}
+
+/* ---------- 由表單組出 CONFIG ---------- */
+function build(){
+  const errs=[], warns=[];
+  const a=S.a.trim(), b=S.b.trim();
+  if(!a||!b) errs.push("請填兩個人的名字。");
+  if(!isYmd(S.startDate)) errs.push("請選「在一起的第一天」。");
+  const dates=[];
+  S.dates.forEach((d,i)=>{
+    const label=d.label.trim();
+    if(!label&&!d.date) return;
+    if(!label) errs.push(`重要日子第 ${i+1} 筆缺少名稱。`);
+    else if(!isYmd(d.date)) errs.push(`「${label}」還沒選日期。`);
+    else dates.push({label,date:d.date,type:d.type,repeat:d.repeat});
+  });
+  if(isYmd(S.startDate)&&!dates.some(d=>d.type==="anniversary"&&d.date===S.startDate))
+    dates.push({label:"在一起紀念日",date:S.startDate,type:"anniversary",repeat:"yearly"});
+  const mems=[];
+  S.album.forEach((m,i)=>{
+    const title=m.title.trim();
+    if(!title&&!m.date&&!m.text.trim()) return;
+    if(!title) errs.push(`回憶第 ${i+1} 則缺少標題。`);
+    else if(!isYmd(m.date)) errs.push(`回憶「${title}」還沒選日期。`);
+    else mems.push({date:m.date,title,text:m.text.trim(),photo:!!m.photo,scene:m.scene});
+  });
+  mems.sort((x,y)=>x.date<y.date?-1:(x.date>y.date?1:0));
+  let n=0; const photos=[];
+  const album=mems.map(m=>{
+    const o={date:m.date,title:m.title,text:m.text};
+    if(m.photo){n++;const f=String(n).padStart(2,"0")+".jpg";o.photo="photos/"+f;photos.push({file:f,m});}
+    else o.scene=m.scene;
+    return o;
+  });
+  const quiz=[];
+  S.quiz.forEach((q,i)=>{
+    const text=q.q.trim(), raw=q.options.map(o=>o.trim());
+    if(!text&&raw.every(o=>!o)) return;
+    const opts=raw.filter(o=>o);
+    if(!text){errs.push(`問答第 ${i+1} 題缺少題目。`);return;}
+    if(opts.length<2){errs.push(`「${text}」至少要有 2 個選項。`);return;}
+    if(!raw[q.answer]){errs.push(`「${text}」標記的正確答案是空白選項。`);return;}
+    quiz.push({q:text,options:opts,answer:opts.indexOf(raw[q.answer])});
+  });
+  const letters=[];
+  S.letters.forEach((l,i)=>{
+    const text=l.text.trim();
+    if(!text&&!l.title.trim()&&!l.unlockDate) return;
+    const name=l.title.trim()||`第 ${i+1} 封信`;
+    if(!text) errs.push(`「${name}」還沒有內容。`);
+    else if(!isYmd(l.unlockDate)) errs.push(`「${name}」還沒選解鎖日期。`);
+    else{
+      if(l.unlockDate<todayYmd()) warns.push(`「${name}」的解鎖日已經過了，打開網頁就能直接讀。`);
+      letters.push({to:l.to.trim(),from:l.from.trim(),title:name,unlockDate:l.unlockDate,text});
+    }
+  });
+  if(!quiz.length) warns.push("還沒有問答題目，問答頁會是空的。");
+  if(!album.length) warns.push("還沒有回憶，相簿頁會是空的。");
+  const k=quiz.length, txt=["沒關係，答案之後慢慢告訴你。","還不錯，看來有好好記得。","全部答對！你們太了解彼此了。"].map((d,i)=>S.r[i].trim()||d);
+  const qr=[];
+  [[0,txt[0]],[Math.ceil(k/2),txt[1]],[k,txt[2]]].forEach(([min,text])=>{
+    const prev=qr.find(r=>r.min===min); if(prev) prev.text=text; else qr.push({min,text});
+  });
+  if(contrastWhite(S.theme)<3) warns.push("這個主題色比較淺，按鈕上的白字可能不容易看清楚。");
+  const cfg={
+    title:S.title.trim()||"我們的日子",
+    couple:{a,b},
+    startDate:S.startDate,
+    heroNote:S.heroNote.trim(),
+    theme:S.theme.toUpperCase(),
+    showCredit:false, creditText:"", demoControls:false,
+    pet:{name:S.petName.trim()||"寶寶",animal:S.animal},
+    petLines:S.petLines.split("\n").map(s=>s.trim()).filter(Boolean),
+    dates, letters, album, quiz, quizResult:qr
+  };
+  return {cfg,errs,warns,photos};
+}
+function todayYmd(){const n=new Date();return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0");}
+function configText(cfg){
+  return `/* =====================================================================
+   客製化設定檔（由產生器建立）。index.html 不用動。
+   照片請依「照片檔名清單」放進 photos/ 資料夾。
+   改完請執行：python scripts/check.py
+   ===================================================================== */
+window.CONFIG = ${JSON.stringify(cfg,null,2)};
+`;
+}
+function photoText(photos){
+  if(!photos.length) return "";
+  return "照片檔名清單（請把照片改成以下檔名，放進 photos/ 資料夾）\n\n"+
+    photos.map(p=>`${p.file}  ←  ${p.m.date}  ${p.m.title}`).join("\n")+"\n";
+}
+
+/* ---------- 表單綁定 ---------- */
+const SIMPLE=["a","b","startDate","heroNote","title","petName","petLines"];
+SIMPLE.forEach(k=>{const el=$("#"+k);el.value=S[k]||"";el.addEventListener("input",()=>{S[k]=el.value;changed();});});
+[0,1,2].forEach(i=>{const el=$("#r"+i);el.value=S.r[i]||"";el.addEventListener("input",()=>{S.r[i]=el.value;changed();});});
+document.querySelectorAll('input[name=animal]').forEach(r=>{
+  r.checked=r.value===S.animal;
+  r.addEventListener("change",()=>{S.animal=r.value;changed();});
+});
+// 支援顏色選擇器的瀏覽器會把不合法的值自動改成 #000000
+const COLOR_OK=(()=>{try{const i=document.createElement("input");i.type="color";i.value="x";return i.type==="color"&&i.value!=="x";}catch(e){return false;}})();
+function renderSwatches(){
+  const box=$("#swatches");
+  box.innerHTML=PRESETS.map(([c,n])=>`<button class="swatch ${c.toUpperCase()===S.theme.toUpperCase()?"on":""}" data-c="${c}" style="background:${c}" aria-label="${n}" title="${n}"></button>`).join("")+
+    `<span class="custom"><input type="color" id="themeCustom" value="${S.theme.toLowerCase()}" aria-label="自訂顏色"${COLOR_OK?"":' class="hidden"'}>
+      <input id="themeHex" value="${S.theme.toUpperCase()}" maxlength="7" spellcheck="false" autocapitalize="characters" aria-label="自訂色碼（例如 #E26D5C）"></span>`;
+  box.querySelectorAll(".swatch").forEach(b=>b.addEventListener("click",()=>{S.theme=b.dataset.c;renderSwatches();changed();}));
+  $("#themeCustom").addEventListener("input",e=>{S.theme=e.target.value;changed();});
+  $("#themeCustom").addEventListener("change",()=>renderSwatches());
+  // 有些瀏覽器不支援顏色選擇器，可以直接輸入色碼
+  $("#themeHex").addEventListener("input",e=>{
+    let v=e.target.value.trim(); if(v&&v[0]!=="#") v="#"+v;
+    if(/^#[0-9a-fA-F]{6}$/.test(v)){S.theme=v.toUpperCase();$("#themeCustom").value=v.toLowerCase();changed();}
+  });
+  $("#themeHex").addEventListener("change",()=>renderSwatches());
+  const name=(PRESETS.find(p=>p[0].toUpperCase()===S.theme.toUpperCase())||[0,"自訂顏色"])[1];
+  $("#themeHint").textContent=`目前：${name}（${S.theme.toUpperCase()}），按鈕、愛心和寵物的圍巾都會用這個顏色。`;
+}
+function field(lbl,el){const l=document.createElement("label");l.textContent=lbl;l.appendChild(el);return l;}
+function input(type,val,on,attrs){
+  const el=document.createElement(type==="textarea"?"textarea":"input");
+  if(type!=="textarea") el.type=type;
+  el.value=val; Object.assign(el,attrs||{});
+  el.addEventListener("input",()=>{on(el.value);changed();});
+  return el;
+}
+function select(opts,val,on){
+  const el=document.createElement("select");
+  opts.forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;el.appendChild(o);});
+  el.value=val; el.addEventListener("change",()=>{on(el.value);changed();});
+  return el;
+}
+function head(text,onDel){
+  const h=document.createElement("div");h.className="head";
+  const s=document.createElement("span");s.textContent=text;h.appendChild(s);
+  const d=document.createElement("button");d.className="del";d.textContent="刪除";
+  d.addEventListener("click",()=>{onDel();renderLists();changed();});
+  h.appendChild(d);return h;
+}
+function renderLists(){
+  const dBox=$("#dates"); dBox.innerHTML="";
+  S.dates.forEach((d,i)=>{
+    const it=document.createElement("div");it.className="item";
+    it.appendChild(head(`日子 ${i+1}`,()=>S.dates.splice(i,1)));
+    it.appendChild(field("名稱",input("text",d.label,v=>d.label=v,{maxLength:20,placeholder:i===0?"例如：小美的生日":"例如：第一次一起旅行"})));
+    it.appendChild(field("日期",input("date",d.date,v=>d.date=v)));
+    const r=document.createElement("div");r.className="row2";
+    r.appendChild(field("類型",select([["birthday","生日"],["anniversary","紀念日"],["other","其他日子"]],d.type,v=>d.type=v)));
+    r.appendChild(field("重複",select([["yearly","每年"],["once","只有一次"]],d.repeat,v=>d.repeat=v)));
+    it.appendChild(r); dBox.appendChild(it);
+  });
+  renderLetters();
+  const aBox=$("#album"); aBox.innerHTML="";
+  S.album.forEach((m,i)=>{
+    const it=document.createElement("div");it.className="item";
+    it.appendChild(head(`回憶 ${i+1}`,()=>S.album.splice(i,1)));
+    it.appendChild(field("日期",input("date",m.date,v=>m.date=v)));
+    it.appendChild(field("標題",input("text",m.title,v=>m.title=v,{maxLength:16,placeholder:"例如：第一次約會"})));
+    it.appendChild(field("說明",input("textarea",m.text,v=>m.text=v,{maxLength:80,rows:2,placeholder:"想對對方說的一兩句話"})));
+    const ck=document.createElement("label");ck.className="check";
+    const cb=document.createElement("input");cb.type="checkbox";cb.checked=!!m.photo;
+    cb.addEventListener("change",()=>{m.photo=cb.checked;renderLists();changed();});
+    ck.appendChild(cb);ck.appendChild(document.createTextNode("這則有照片"));it.appendChild(ck);
+    if(!m.photo) it.appendChild(field("沒有照片時的插畫",select(SCENES,m.scene,v=>m.scene=v)));
+    aBox.appendChild(it);
+  });
+  const qBox=$("#quiz"); qBox.innerHTML="";
+  S.quiz.forEach((q,i)=>{
+    const it=document.createElement("div");it.className="item";
+    it.appendChild(head(`第 ${i+1} 題`,()=>S.quiz.splice(i,1)));
+    it.appendChild(field("題目",input("text",q.q,v=>q.q=v,{maxLength:30,placeholder:"例如：我們第一次約會去哪裡？"})));
+    const box=document.createElement("div");box.className="opts";
+    while(q.options.length<4) q.options.push("");
+    q.options.forEach((o,j)=>{
+      const row=document.createElement("div");row.className="opt";
+      const rd=document.createElement("input");rd.type="radio";rd.name="ans"+i;rd.checked=q.answer===j;rd.setAttribute("aria-label",`選項 ${j+1} 是正確答案`);
+      rd.addEventListener("change",()=>{q.answer=j;changed();});
+      row.appendChild(rd);
+      row.appendChild(input("text",o,v=>q.options[j]=v,{maxLength:20,placeholder:j<3?`選項 ${j+1}`:"選項 4（可留白）"}));
+      box.appendChild(row);
+    });
+    it.appendChild(box); qBox.appendChild(it);
+  });
+}
+function renderLetters(){
+  const box=$("#letters"); box.innerHTML="";
+  S.letters.forEach((l,i)=>{
+    const it=document.createElement("div");it.className="item";
+    it.appendChild(head(`信 ${i+1}`,()=>S.letters.splice(i,1)));
+    const r=document.createElement("div");r.className="row2";
+    r.appendChild(field("給誰",input("text",l.to,v=>l.to=v,{maxLength:12,placeholder:"例如：小美"})));
+    r.appendChild(field("署名",input("text",l.from,v=>l.from=v,{maxLength:12,placeholder:"例如：大明"})));
+    it.appendChild(r);
+    it.appendChild(field("信的標題",input("text",l.title,v=>l.title=v,{maxLength:20,placeholder:"例如：給小美的生日信"})));
+    const dIn=input("date",l.unlockDate,v=>l.unlockDate=v);
+    it.appendChild(field("解鎖日期（這天起才能打開）",dIn));
+    const bdays=S.dates.filter(d=>d.type==="birthday"&&d.label.trim()&&isYmd(d.date));
+    if(bdays.length){
+      const q=document.createElement("div");q.className="swatches";q.style.gap="6px";
+      bdays.forEach(d=>{
+        const bt=document.createElement("button");bt.className="btn ghost";bt.style.padding="6px 12px";bt.style.fontSize="13px";
+        bt.textContent=`設為下一次「${d.label.trim()}」`;
+        bt.addEventListener("click",()=>{l.unlockDate=nextOccurrence(d.date);dIn.value=l.unlockDate;changed();});
+        q.appendChild(bt);
+      });
+      it.appendChild(q);
+    }
+    it.appendChild(field("信的內容",input("textarea",l.text,v=>l.text=v,{maxLength:1200,rows:7,placeholder:"想在那天對對方說的話"})));
+    box.appendChild(it);
+  });
+}
+let lt=null;
+["input","change"].forEach(t=>$("#dates").addEventListener(t,()=>{clearTimeout(lt);lt=setTimeout(renderLetters,400);}));
+$("#addLetter").addEventListener("click",()=>{S.letters.push(blankLetter());renderLetters();changed();});
+$("#addDate").addEventListener("click",()=>{S.dates.push(blankDate());renderLists();changed();});
+$("#addAlbum").addEventListener("click",()=>{S.album.push(blankMem());renderLists();changed();});
+$("#addQuiz").addEventListener("click",()=>{S.quiz.push(blankQ());renderLists();changed();});
+$("#reset").addEventListener("click",()=>{
+  if(!confirm("確定要清除所有填寫的內容嗎？")) return;
+  S=fresh(); save(); location.reload();
+});
+
+/* ---------- 輸出 ---------- */
+let last=build();
+function renderOutput(){
+  const box=$("#msgs");
+  const m=last.errs.map(t=>`<div class="msg err"></div>`).concat(last.warns.map(()=>`<div class="msg warn"></div>`));
+  box.innerHTML=m.join("")||'<div class="msg ok">資料都填好了，可以下載了。</div>';
+  const els=box.querySelectorAll(".msg.err,.msg.warn");
+  last.errs.concat(last.warns).forEach((t,i)=>{els[i].textContent=t;});
+  const pt=photoText(last.photos);
+  $("#photoBox").classList.toggle("hidden",!pt);
+  $("#photoList").textContent=pt;
+}
+function toast(t){
+  const el=document.createElement("div");el.className="toast";el.textContent=t;el.setAttribute("role","status");
+  document.body.appendChild(el);setTimeout(()=>el.remove(),1800);
+}
+function download(name,text,type){
+  const url=URL.createObjectURL(new Blob([text],{type}));
+  const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function copy(text){
+  try{await navigator.clipboard.writeText(text);toast("已複製");}
+  catch(e){
+    const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
+    let ok=false;try{ok=document.execCommand("copy");}catch(_){}
+    ta.remove();toast(ok?"已複製":"無法自動複製，請改用下載");
+  }
+}
+function guard(){
+  if(!last.errs.length) return true;
+  toast("還有資料沒填好"); $("#msgs").scrollIntoView({behavior:"smooth",block:"center"}); return false;
+}
+$("#dl").addEventListener("click",()=>{if(guard()) download("config.js",configText(last.cfg),"text/javascript;charset=utf-8");});
+$("#copy").addEventListener("click",()=>{if(guard()) copy(configText(last.cfg));});
+$("#dlPhotos").addEventListener("click",()=>download("照片檔名清單.txt",photoText(last.photos),"text/plain;charset=utf-8"));
+$("#copyPhotos").addEventListener("click",()=>copy(photoText(last.photos)));
+
+/* ---------- 即時預覽 ---------- */
+// 預覽頁（index.html?preview=1）只接受外層傳入的設定，不寫入 localStorage
+let sheetFrame=null;
+function frames(){return [$("#pvDesk"),sheetFrame].filter(Boolean);}
+function previewCfg(){
+  const c=JSON.parse(JSON.stringify(last.cfg));
+  if(!c.couple.a) c.couple.a="你"; if(!c.couple.b) c.couple.b="我";
+  return c;
+}
+function push(){
+  const msg={type:"ourdays-config",config:previewCfg()};
+  frames().forEach(f=>{try{f.contentWindow&&f.contentWindow.postMessage(msg,"*");}catch(e){}});
+}
+window.addEventListener("message",e=>{
+  if(!e.data||e.data.type!=="ourdays-ready") return;
+  if(!frames().some(f=>f.contentWindow===e.source)) return;
+  push();
+});
+let timer=null;
+function changed(){
+  save();
+  last=build();
+  document.documentElement.style.setProperty("--accent",S.theme);
+  document.documentElement.style.setProperty("--accent-soft",mix(S.theme,"#ffffff",.72));
+  document.documentElement.style.setProperty("--accent-tint",mix(S.theme,"#ffffff",.86));
+  renderOutput();
+  clearTimeout(timer); timer=setTimeout(push,250);
+}
+$("#pvOpen").addEventListener("click",()=>{
+  const sh=$("#pvSheet");
+  if(!sheetFrame){
+    sheetFrame=document.createElement("iframe");sheetFrame.title="網頁預覽";sheetFrame.src="index.html?preview=1";
+    sh.appendChild(sheetFrame);
+  }else push();
+  sh.classList.remove("hidden"); document.body.style.overflow="hidden"; $("#pvClose").focus();
+});
+function closeSheet(){$("#pvSheet").classList.add("hidden");document.body.style.overflow="";$("#pvOpen").focus();}
+$("#pvClose").addEventListener("click",closeSheet);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#pvSheet").classList.contains("hidden")) closeSheet();});
+
+renderSwatches(); renderLists(); changed();
+</script>
+</body>
+</html>
