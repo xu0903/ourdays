@@ -13,6 +13,7 @@ window.CONFIG = {
   theme: "#E26D5C",                    // 主色（#RRGGBB），按鈕、愛心、寵物圍巾都會跟著變
   bg: "#FBF4EC",                       // 背景色（淺色）。客人也可以在網頁的「設定」裡換 7 種主題或自訂
   couplePhoto: "photos/couple.jpg",    // 首頁大頭貼（正方形）。App 圖示用 scripts/photo_tool.py icons 產生
+  exportMark: "我們的日子",             // 剪貼簿存成圖片時右下角的小字（可改成你的品牌名；留空 "" 就不加）
   albumFrame: "polaroid",              // 相簿預設相框：plain 簡約 | polaroid 拍立得 | washi 和紙膠帶 | film 底片 | cream 奶油
                                        //   stamp 郵票 | magazine 雜誌 | booth 人生四格 | arch 拱窗 | gingham 格紋 | datestamp 日期印
   showCredit: true,                    // 交付給客人時改成 false

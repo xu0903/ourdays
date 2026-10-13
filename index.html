@@ -308,25 +308,20 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pagetitle{margin:0 4px 14px;font-size:22px}
 .sbhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .sbhead .pagetitle{margin-bottom:14px}
-.sbhead .btn{margin-bottom:14px}
+.sbheadbtns{display:flex;gap:8px;margin-bottom:14px}
+.sbheadbtns .btn{padding:9px 14px}
 #tab-scrap .sub{font-size:13px;color:var(--muted)}
 .sbgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .sbthumb{border:0;background:none;padding:0;text-align:left;font:inherit;color:var(--ink)}
 .sbthumb span{display:block;font-size:13px;font-weight:600;margin-top:6px;padding:0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbthumb em{font-style:normal;display:inline-block;min-width:1.6em;margin-right:6px;padding:0 5px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-size:11px;text-align:center}
 .sbthumb .sbpage{pointer-events:none}
 
-/* 剪貼簿：頁面（容器單位 cqw = 頁寬的 1%） */
+/* 剪貼簿：頁面（容器單位 cqw = 頁寬的 1%；背景由程式產生 .bg-xxx） */
 .sbpage{position:relative;width:100%;aspect-ratio:3/4;container-type:inline-size;overflow:hidden;border-radius:6px;
   box-shadow:0 2px 0 var(--line),0 6px 18px rgba(59,47,47,.08);user-select:none;-webkit-user-select:none}
-.bg-cream{background:#FFF9F0}
-.bg-grid{background:linear-gradient(rgba(140,123,114,.16) 1px,transparent 1px) 0 0/5% 3.75%,linear-gradient(90deg,rgba(140,123,114,.16) 1px,transparent 1px) 0 0/5% 3.75%,#FFFDF8}
-.bg-dots{background:radial-gradient(rgba(140,123,114,.3) 14%,transparent 16%) 0 0/5% 3.75%,#FFFDF8}
-.bg-kraft{background:repeating-linear-gradient(35deg,rgba(255,255,255,.06) 0 2px,transparent 2px 6px),#DCC3A0}
-.bg-pinkcheck{background:linear-gradient(90deg,rgba(255,255,255,.5) 50%,transparent 0) 0 0/10% 7.5%,linear-gradient(rgba(255,255,255,.5) 50%,transparent 0) 0 0/10% 7.5%,#F7D9DE}
-.bg-mint{background:#E4F2EA}
-.bg-night{background:radial-gradient(rgba(255,255,255,.55) 6%,transparent 8%) 0 0/12% 9%,radial-gradient(rgba(255,255,255,.3) 5%,transparent 7%) 6% 4.5%/12% 9%,#2B2A38}
+.sbpage.blank{box-shadow:none}
 .si{position:absolute;box-sizing:border-box;touch-action:none}
-.sbedit .si{cursor:grab}
 .s-photo .ph{width:100%;height:100%;overflow:hidden;background:#EDE4DA}
 .s-photo .ph img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}
 .s-photo .ph.empty{background:repeating-linear-gradient(45deg,#EDE4DA 0 6px,#F5EEE6 6px 12px)}
@@ -337,52 +332,45 @@ button{font:inherit;color:inherit;cursor:pointer}
 .s-photo.b-round .ph{border-radius:3.8cqw}
 .s-photo.b-circle{border:1.2cqw solid var(--bc);border-radius:50%}
 .s-photo.b-circle .ph{border-radius:50%}
-.s-photo.b-tape::before,.s-photo.b-tape::after{content:"";position:absolute;z-index:1;width:32%;height:5.5cqw;background:var(--bc);opacity:.8;box-shadow:0 .2cqw .6cqw rgba(0,0,0,.08)}
+.s-photo.b-tape::before,.s-photo.b-tape::after{content:"";position:absolute;z-index:1;width:32%;height:5.5cqw;background:var(--bc);opacity:.8}
 .s-photo.b-tape::before{top:-2.6cqw;left:-7%;transform:rotate(-32deg)}
 .s-photo.b-tape::after{bottom:-2.6cqw;right:-7%;transform:rotate(-32deg)}
 .s-photo.b-tape{box-shadow:0 .6cqw 1.6cqw rgba(0,0,0,.12)}
 .s-photo.b-shadow{box-shadow:0 1.6cqw 4cqw rgba(0,0,0,.28)}
 .s-text{white-space:pre;line-height:1.25;text-align:center;padding:.08em .18em}
-.s-text.bold{font-weight:800}
-.s-text.f-serif{font-family:"Songti TC","Noto Serif TC","Noto Serif CJK TC","PMingLiU",serif}
-.s-text.f-kai{font-family:"Kaiti TC","STKaiti","BiauKai","DFKai-SB",serif}
-.s-text.f-round{font-family:"Yuanti TC","Hiragino Maru Gothic ProN","Microsoft JhengHei",sans-serif;font-weight:600}
-.s-text.f-mono{font-family:ui-monospace,"Courier New",Consolas,monospace;letter-spacing:.04em}
-.s-sticker{white-space:nowrap;line-height:1}
-.si.sel{outline:.5cqw dashed var(--accent);outline-offset:1.2cqw;z-index:50}   /* 選取中暫時移到最上層，控制點才不會被蓋住 */
-.si.cropping{outline-style:solid;outline-width:.8cqw}
+.s-sticker{line-height:0}
+.s-sticker .k{display:block;overflow:visible}
+/* 選取框與控制點：畫面放大時用 --vz 反向縮放，維持手指好按的大小 */
+.si.sel{outline:calc(.5cqw / var(--vz,1)) dashed var(--accent);outline-offset:calc(1.2cqw / var(--vz,1));z-index:50}
+.si.cropping{outline-style:solid}
 .si.cropping .ph{touch-action:none;cursor:move}
-.hd{position:absolute;width:7.5cqw;height:7.5cqw;border-radius:50%;background:#fff;border:.7cqw solid var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.25);font-size:0}
-.hd::after{content:"";position:absolute;inset:-2.5cqw}
-.hd.rs{right:-4.8cqw;bottom:-4.8cqw;cursor:nwse-resize}
-.hd.rt{left:50%;top:-12cqw;transform:translateX(-50%);cursor:grab}
-.hd.rt::before{content:"";position:absolute;left:50%;top:100%;width:.5cqw;height:4.3cqw;background:var(--accent);transform:translateX(-50%)}
-
-/* 文字貼紙（大小跟著 font-size，顏色跟著 --c） */
-.k-love{display:block;font:800 2.2em/1 "Didot","Bodoni 72","Times New Roman",serif;letter-spacing:.06em;color:var(--c)}
-.k-ourday{display:block;font:italic 600 1.9em/1.1 "Snell Roundhand","Segoe Script","Brush Script MT",cursive;color:var(--c)}
-.k-pill{display:inline-block;padding:.45em .9em;border-radius:99px;background:var(--c);color:#fff;font-weight:700;font-size:1em}
-.k-dday{display:inline-block;padding:.25em .55em;border:.14em solid var(--c);border-radius:.5em;color:var(--c);font:800 1.6em/1 ui-monospace,Consolas,monospace;background:rgba(255,255,255,.75)}
-.k-ribbon{display:inline-block;padding:.45em 1.4em;background:var(--c);color:#fff;font:700 1em/1 "Times New Roman",serif;letter-spacing:.04em;
-  clip-path:polygon(0 0,100% 0,94% 50%,100% 100%,0 100%,6% 50%)}
-.k-withyou{display:block;font:300 1.5em/1 "Helvetica Neue",Arial,sans-serif;letter-spacing:.32em;color:var(--c)}
-.k-stamp{display:grid;place-items:center;width:4.2em;height:4.2em;border:.14em dashed var(--c);border-radius:50%;color:var(--c);font-weight:800;font-size:1em;line-height:1.15;text-align:center;transform:rotate(-8deg)}
-.k-label{display:inline-block;padding:.35em .7em;border:.1em solid var(--c);border-radius:.3em;background:#fff;color:var(--c);font:700 1em/1 ui-monospace,Consolas,monospace;letter-spacing:.06em}
-.k-thanks{display:block;font:600 1.9em/1 "Kaiti TC","STKaiti","Segoe Script",cursive;color:var(--c)}
-.k-tag{display:inline-block;position:relative;padding:.4em .8em .4em 1.5em;background:var(--c);color:#fff;font-weight:800;font-size:1em;border-radius:.2em .4em .4em .2em;
-  clip-path:polygon(.9em 0,100% 0,100% 100%,.9em 100%,0 50%)}
-.k-tag::before{content:"";position:absolute;left:.75em;top:50%;width:.36em;height:.36em;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
-.k-shape{display:block;width:3em;height:3em}
+.hd{position:absolute;width:calc(7.5cqw / var(--vz,1));height:calc(7.5cqw / var(--vz,1));border-radius:50%;background:#fff;
+  border:calc(.7cqw / var(--vz,1)) solid var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.hd::after{content:"";position:absolute;inset:calc(-2.5cqw / var(--vz,1))}
+.hd.rs{right:calc(-4.8cqw / var(--vz,1));bottom:calc(-4.8cqw / var(--vz,1));cursor:nwse-resize}
+.hd.rt{left:50%;top:calc(-12cqw / var(--vz,1));transform:translateX(-50%);cursor:grab}
+.hd.rt::before{content:"";position:absolute;left:50%;top:100%;width:calc(.5cqw / var(--vz,1));height:calc(4.3cqw / var(--vz,1));background:var(--accent);transform:translateX(-50%)}
 
 /* 剪貼簿：編輯畫面 */
-.sbedit{position:fixed;inset:0;z-index:25;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.sbedit,.sbbook{position:fixed;inset:0;z-index:25;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .sbtop{display:flex;gap:8px;align-items:center;padding:10px 12px}
 .sbtop .btn{padding:8px 14px;flex:none}
 .sbtop input{flex:1;min-width:0;font:inherit;font-weight:700;border:1px solid transparent;border-radius:10px;padding:8px 10px;background:transparent;color:var(--ink)}
 .sbtop input:focus{border-color:var(--line);background:#fff;outline:none}
 .sbstatus{font-size:12px;color:var(--muted);flex:none;max-width:30%;text-align:right}
-.sbstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 18px 14px;overflow:hidden;touch-action:none}
-.sbstage .sbpage{flex:none}
+.sbicon{flex:none;width:38px;height:38px;border:0;border-radius:50%;background:var(--warm);color:var(--accent);display:grid;place-items:center}
+.sbicon svg{width:20px;height:20px}
+.sbstage{position:relative;flex:1;min-height:0;overflow:hidden;touch-action:none}
+.sbhold{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.sbhold .sbpage{flex:none;transform-origin:0 0;will-change:transform}
+.sbedit .si{cursor:grab}
+.sbstage.panmode,.sbstage.panmode .si{cursor:move}
+.sbmode{position:absolute;left:12px;top:6px;z-index:5;display:flex;padding:3px;border-radius:99px;background:#fff;box-shadow:0 1px 5px rgba(59,47,47,.15)}
+.sbmode button{border:0;background:none;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted)}
+.sbmode button.on{background:var(--accent);color:#fff}
+.sbzoom{position:absolute;right:12px;bottom:8px;z-index:5;display:flex;align-items:center;padding:3px;border-radius:99px;background:#fff;box-shadow:0 1px 5px rgba(59,47,47,.15)}
+.sbzoom button{border:0;background:none;min-width:34px;height:30px;border-radius:99px;font-size:18px;line-height:1;color:var(--ink)}
+.sbzoom #sbZoomLbl{font-size:12px;min-width:48px;color:var(--muted);font-weight:600}
 .sbtools{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:6px 8px 8px;border-top:1px solid var(--line);background:#fff;flex:none}
 .sbtools::-webkit-scrollbar{display:none}
 .sbtools button{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;font-size:12px;color:var(--ink);padding:6px 8px;min-width:54px;border-radius:10px}
@@ -393,15 +381,21 @@ button{font:inherit;color:inherit;cursor:pointer}
 .sbchips{display:flex;flex-wrap:wrap;gap:8px}
 .sbchips button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-size:14px;color:var(--ink)}
 .sbchips button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.sbchips button:disabled{opacity:.4}
+.sbchips button.danger{color:#B5473A;border-color:#F0C9C2}
 .sbcolors{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .sbcolors .sw{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
 .sbcolors .sw.on{box-shadow:0 0 0 2px var(--ink)}
 .swc{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
 .swc input{width:40px;height:34px;padding:2px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.sbstickers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.sbstickers button{position:relative;display:block;height:64px;border:1px solid var(--line);border-radius:12px;background:var(--warm);overflow:hidden;padding:4px}
-.kprev{position:absolute;left:50%;top:50%;font-size:10px;line-height:1;white-space:nowrap;transform:translate(-50%,-50%)}
-.kprev .k-shape{width:2.8em;height:2.8em}
+.sbstickers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sbstickers button{position:relative;display:block;height:58px;border:1px solid var(--line);border-radius:12px;background:var(--warm);overflow:hidden;padding:0}
+.kprev{position:absolute;left:50%;top:50%;font-size:14px;line-height:0;transform:translate(-50%,-50%)}
+.kprev .k{display:block}
+.sbbgs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sbbgs button{position:relative;aspect-ratio:3/4;border:2px solid transparent;border-radius:8px;padding:0;box-shadow:0 0 0 1px var(--line)}
+.sbbgs button.on{border-color:var(--accent)}
+.sbbgs span{position:absolute;left:0;right:0;bottom:0;padding:2px 0;font-size:11px;background:rgba(255,255,255,.85);color:var(--ink);border-radius:0 0 6px 6px}
 .sbpool{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .sbpool button{aspect-ratio:1;border:0;padding:0;border-radius:8px;overflow:hidden;background:var(--chip)}
 .sbpool img,.sbpool .cpic img{width:100%;height:100%;object-fit:cover;display:block}
@@ -411,6 +405,42 @@ button{font:inherit;color:inherit;cursor:pointer}
 .sbpanel .msg.err{color:#B5473A}
 .sbpanel .hint{font-size:12px;color:var(--muted)}
 .sbpanel textarea{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%;resize:vertical}
+
+/* 剪貼簿：翻閱（翻頁動畫） */
+.bktitle{flex:1;text-align:center;font-size:15px}
+.bkstage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:12px 16px;overflow:hidden;touch-action:pan-y}
+.book{position:relative;display:flex;perspective:2400px}
+.book .leafpos{width:var(--pw)}
+.book .sbpage{width:100%}
+.book.spread .leafpos:first-child .sbpage,.leaf.left .face .sbpage{border-radius:6px 0 0 6px}
+.book.spread .leafpos:nth-child(2) .sbpage,.leaf.right .face .sbpage{border-radius:0 6px 6px 0}
+.book.spread::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:56px;transform:translateX(-50%);pointer-events:none;z-index:3;
+  background:linear-gradient(90deg,transparent,rgba(0,0,0,.14),transparent)}
+.leaf{position:absolute;top:0;width:var(--pw);height:calc(var(--pw) * 4 / 3);transform-style:preserve-3d;z-index:4;
+  transition:transform .7s cubic-bezier(.3,.1,.2,1),opacity .7s ease-in}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.leaf .face.back{transform:rotateY(180deg)}
+.leaf.single{left:0;transform-origin:left center}
+.leaf.single.go-next.turn{transform:rotateY(-105deg);opacity:0}
+.leaf.single.go-prev{transform:rotateY(-105deg);opacity:0}
+.leaf.single.go-prev.turn{transform:rotateY(0);opacity:1}
+.leaf.right{left:var(--pw);transform-origin:left center}
+.leaf.right.turn{transform:rotateY(-180deg)}
+.leaf.left{left:0;transform-origin:right center}
+.leaf.left.turn{transform:rotateY(180deg)}
+.bknav{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 12px 14px}
+.bknav>button:not(.btn){width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:var(--accent);display:grid;place-items:center;box-shadow:0 1px 4px rgba(59,47,47,.12)}
+.bknav>button:not(.btn) svg{width:22px;height:22px}
+.bknav>button:disabled{opacity:.35}
+.bknav .btn{padding:10px 14px}
+
+/* 分享／存成圖片 */
+.sheet.share .sbchips button{font-size:13px;padding:7px 12px}
+.shprev{margin-top:12px;text-align:center}
+.shprev img{max-width:100%;max-height:36vh;border-radius:8px;box-shadow:0 4px 16px rgba(59,47,47,.15);background:var(--chip)}
+.shprev img:not([src]){display:none}
+.shprev .msg{margin-top:8px}
+
 
 /* quiz */
 .prog{height:8px;border-radius:99px;background:var(--chip);overflow:hidden;margin-bottom:16px}
@@ -549,6 +579,7 @@ function normalize(raw){
     bg:/^#[0-9a-fA-F]{6}$/.test(c.bg||"")&&lum(c.bg)>=.55?c.bg:DEFAULT_BG,
     showCredit:!!c.showCredit, creditText:typeof c.creditText==="string"?c.creditText:"",
     demoControls:!!c.demoControls,
+    exportMark:typeof c.exportMark==="string"?[...c.exportMark.trim()].slice(0,24).join(""):undefined,
     couplePhoto:typeof c.couplePhoto==="string"&&/^[\w./-]+\.(jpe?g|png|webp)$/i.test(c.couplePhoto)&&!/^\/|\.\./.test(c.couplePhoto)?c.couplePhoto:"",
     albumFrame:["plain","polaroid","washi","film","cream","stamp","magazine","booth","arch","gingham","datestamp"].includes(c.albumFrame)?c.albumFrame:"plain",
     pet:{name:str(pet.name,"寶寶"),animal:ANIMALS.includes(pet.animal)?pet.animal:"shiba"},
@@ -1356,12 +1387,21 @@ const demoCloud={
       {t:"photo",src:ph[4%ph.length],x:.7,y:.62,w:.48,h:.36,r:5,border:"tape",bc:"#CFE3D9"},
       {t:"photo",src:ph[0],x:.28,y:.8,w:.3,h:.3,r:-3,border:"circle",bc:"#FFFFFF"},
       {t:"text",text:"我們的夏天",x:.5,y:.08,r:-2,font:"kai",color:"#3B2F2F",size:.09,bold:true},
-      {t:"sticker",k:"dday",x:.78,y:.2,r:6,color:"#E26D5C",size:.045},
-      {t:"sticker",k:"likeyou",x:.62,y:.9,r:-4,color:"#E0708A",size:.042},
-      {t:"sticker",k:"heart",x:.12,y:.6,r:-12,color:"#E26D5C",size:.05},
-      {t:"sticker",k:"sparkle",x:.9,y:.42,r:0,color:"#F2A65A",size:.04}
+      {t:"sticker",k:"dday",x:.76,y:.2,r:6,color:"#E26D5C",size:.075},
+      {t:"sticker",k:"likeyou",x:.64,y:.9,r:-4,color:"#E0708A",size:.065},
+      {t:"sticker",k:"heart",x:.12,y:.6,r:-12,color:"#E26D5C",size:.1},
+      {t:"sticker",k:"sparkle",x:.9,y:.42,r:0,color:"#F2A65A",size:.08},
+      {t:"sticker",k:"tape",x:.62,y:.47,r:8,color:"#9CC9E0",size:.04}
     ];
-    this.pages=[{id:"demopage00000001",title:"我們的夏天",data:JSON.stringify({v:1,bg:"pinkcheck",items}),updatedAt:0}];
+    const items2=[
+      {t:"photo",src:ph[8%ph.length],x:.5,y:.4,w:.8,h:.6,r:0,border:"shadow",bc:"#FFFFFF"},
+      {t:"text",text:"一起追夕陽",x:.5,y:.79,r:0,font:"serif",color:"#FFFFFF",size:.075,bold:true},
+      {t:"sticker",k:"goodnight",x:.5,y:.89,r:-3,color:"#FFE3B8",size:.05},
+      {t:"sticker",k:"star",x:.15,y:.1,r:-10,color:"#FFE3B8",size:.07},
+      {t:"sticker",k:"moon",x:.86,y:.09,r:0,color:"#FFE3B8",size:.09}
+    ];
+    this.pages=[{id:"demopage00000001",title:"我們的夏天",data:JSON.stringify({v:2,o:0,bg:"pinkcheck",items}),updatedAt:0},
+      {id:"demopage00000002",title:"晚霞",data:JSON.stringify({v:2,o:1,bg:"night",items:items2}),updatedAt:0}];
   },
   seed(){
     if(this.seeded) return; this.seeded=true;
@@ -1718,17 +1758,107 @@ function openMem(m,i){
 
 /* ---------------- 剪貼簿 ---------------- */
 // 每一頁是一張 3:4 的紙，可以放照片、文字、貼紙。位置用「頁面寬高的比例」、大小用「頁寬的比例」存，
-// 所以不同手機看起來一樣；縮圖和編輯畫面共用同一套畫法（CSS 容器單位 cqw 會跟著頁面寬度縮放）。
+// 所以不同手機看起來一樣。貼紙和背景都是 SVG：畫面上直接顯示，匯出圖片時畫進 canvas，兩邊長得一樣。
 // 連上雲端：兩個人共用、即時存到雲端；沒有雲端的訂單：存在這支手機，只能用相簿裡的照片。
-const SB_BGS=[["cream","奶油"],["grid","方格"],["dots","點點"],["kraft","牛皮紙"],["pinkcheck","粉格紋"],["mint","薄荷"],["night","夜空"]];
-const SB_BORDERS=[["none","無"],["white","細邊"],["polaroid","拍立得"],["round","圓角"],["circle","圓形"],["tape","膠帶"],["shadow","陰影"]];
 const SB_FONTS=[["sans","黑體"],["serif","明體"],["kai","楷體"],["round","圓體"],["mono","打字機"]];
-const SB_COLORS=["#3B2F2F","#FFFFFF","#E26D5C","#E0708A","#F2A65A","#4E9A7A","#5B8CC9","#8A6FC0","#8C7B6B","#1F1B1A"];
-const SB_STICKERS=[["love","LOVE"],["ourday","Our Day"],["likeyou","今天也很喜歡你"],["dday","D+ 天數"],["anniv","Anniversary"],
-  ["withyou","with you"],["stamp","我們的日子"],["sweet","Sweet Moment"],["thanks","Thank you"],["best","Best Day Ever"],
-  ["heart","愛心"],["sparkle","閃光"],["flower","小花"],["cloud","雲朵"]];
+const SB_FONT_CSS={sans:"'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif",
+  serif:"'Songti TC','Noto Serif TC','Noto Serif CJK TC','PMingLiU',serif",kai:"'Kaiti TC','STKaiti','BiauKai','DFKai-SB',serif",
+  round:"'Yuanti TC','Hiragino Maru Gothic ProN','Microsoft JhengHei',sans-serif",mono:"ui-monospace,'Courier New',Consolas,monospace"};
+const SB_BORDERS=[["none","無"],["white","細邊"],["polaroid","拍立得"],["round","圓角"],["circle","圓形"],["tape","膠帶"],["shadow","陰影"]];
+const SB_COLORS=["#3B2F2F","#FFFFFF","#E26D5C","#E0708A","#F2A65A","#E8B33A","#4E9A7A","#5B8CC9","#8A6FC0","#8C7B6B","#1F1B1A"];
 const SB_LOCAL_KEY="ourdays_scrap_local";
-const sb={pages:[],loaded:false,status:"idle",cur:null,sel:null,crop:false,panel:null,timer:null,saving:false,pending:false,lastFetch:0};
+
+/* ---------- 貼紙（SVG，寬高單位：40 = 1em） ---------- */
+const F_SERIF="'Didot','Bodoni 72','Times New Roman',serif", F_SCRIPT="'Snell Roundhand','Segoe Script','Brush Script MT',cursive";
+const F_SANS="'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif", F_MONO="ui-monospace,'Courier New',Consolas,monospace";
+const HEART48="M24 42.7l-2.9-2.6C10.8 30.7 4 24.6 4 17 4 10.8 8.8 6 15 6c3.5 0 6.8 1.6 9 4.2C26.2 7.6 29.5 6 33 6c6.2 0 11 4.8 11 11 0 7.6-6.8 13.7-17.1 23.1z";
+function svT(x,y,t,o){
+  return `<text x="${x}" y="${y}" text-anchor="middle" font-size="${o.size}" font-family="${o.family}" font-weight="${o.weight||400}"`+
+    ` font-style="${o.style||"normal"}" fill="${o.fill||"none"}"${o.stroke?` stroke="${o.stroke}" stroke-width="${o.sw||2}"`:""}`+
+    `${o.len?` textLength="${o.len}" lengthAdjust="spacingAndGlyphs"`:""}>${esc(t)}</text>`;
+}
+const SB_STK={
+  love:c=>({w:120,h:46,b:svT(60,38,"LOVE",{size:40,fill:c,family:F_SERIF,weight:800,len:112})}),
+  ourday:c=>({w:136,h:46,b:svT(68,34,"Our Day",{size:34,fill:c,family:F_SCRIPT,style:"italic",weight:600,len:128})}),
+  likeyou:c=>({w:200,h:44,b:`<rect x="1" y="1" width="198" height="42" rx="21" fill="${c}"/>`+svT(100,29,"今天也很喜歡你",{size:19,fill:"#fff",family:F_SANS,weight:700,len:160})}),
+  dday:c=>{const t="D+"+Math.max(1,daysTogether()), w=Math.max(100,30+t.length*19);
+    return {w,h:50,b:`<rect x="3" y="3" width="${w-6}" height="44" rx="10" fill="#fff" fill-opacity=".85" stroke="${c}" stroke-width="5"/>`+svT(w/2,35,t,{size:28,fill:c,family:F_MONO,weight:800,len:w-34})};},
+  anniv:c=>({w:230,h:42,b:`<path d="M0 0H230L216 21L230 42H0L14 21z" fill="${c}"/>`+svT(115,28,"Happy Anniversary",{size:18,fill:"#fff",family:"'Times New Roman',serif",weight:700,len:170})}),
+  withyou:c=>({w:150,h:30,b:svT(75,23,"with you",{size:22,fill:c,family:"'Helvetica Neue',Arial,sans-serif",weight:300,len:140})}),
+  stamp:c=>({w:96,h:96,b:`<g transform="rotate(-8 48 48)"><circle cx="48" cy="48" r="43" fill="none" stroke="${c}" stroke-width="4" stroke-dasharray="7 5"/>`+
+    svT(48,45,"我們的",{size:19,fill:c,family:F_SANS,weight:800})+svT(48,69,"日子",{size:19,fill:c,family:F_SANS,weight:800})+`</g>`}),
+  sweet:c=>({w:176,h:38,b:`<rect x="2" y="2" width="172" height="34" rx="6" fill="#fff" stroke="${c}" stroke-width="3"/>`+svT(88,25,"Sweet Moment",{size:16,fill:c,family:F_MONO,weight:700,len:148})}),
+  thanks:c=>({w:150,h:46,b:svT(75,34,"Thank you",{size:32,fill:c,family:F_SCRIPT,weight:600,len:140})}),
+  best:c=>({w:176,h:42,b:`<path d="M16 0H170a6 6 0 0 1 6 6V36a6 6 0 0 1-6 6H16L0 21z" fill="${c}"/><circle cx="16" cy="21" r="4" fill="#fff"/>`+svT(98,28,"Best Day Ever",{size:18,fill:"#fff",family:F_SANS,weight:800,len:136})}),
+  goodnight:c=>({w:160,h:52,b:`<path d="M30 6a20 20 0 1 0 18 28A16 16 0 0 1 30 6z" fill="${c}"/>`+svT(104,35,"Good Night",{size:24,fill:c,family:F_SERIF,style:"italic",weight:600,len:100})}),
+  missyou:c=>({w:120,h:78,b:`<path d="M10 4h100a8 8 0 0 1 8 8v40a8 8 0 0 1-8 8H44l-16 14 2-14H10a8 8 0 0 1-8-8V12a8 8 0 0 1 8-8z" fill="#fff" stroke="${c}" stroke-width="4" stroke-linejoin="round"/>`+svT(60,41,"想你了",{size:24,fill:c,family:F_SANS,weight:800})}),
+  forever:c=>({w:150,h:56,b:svT(75,34,"Forever",{size:34,fill:c,family:F_SERIF,style:"italic",weight:700,len:136})+`<path d="M18 46c30-8 84-8 114 0" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>`}),
+  hbd:c=>({w:200,h:50,b:svT(100,33,"Happy Birthday",{size:26,fill:c,family:F_SANS,weight:900,len:184})+`<g fill="${c}" fill-opacity=".5"><circle cx="12" cy="44" r="3"/><circle cx="60" cy="46" r="2.5"/><circle cx="140" cy="45" r="3"/><circle cx="188" cy="44" r="2.5"/></g>`}),
+  travel:c=>({w:196,h:66,b:`<path d="M6 4h184a4 4 0 0 1 4 4v14a10 10 0 0 0 0 22v14a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V44a10 10 0 0 0 0-22V8a4 4 0 0 1 4-4z" fill="${c}"/><path d="M150 10v46" stroke="#fff" stroke-width="2" stroke-dasharray="4 4"/>`+
+    svT(78,41,"一起去旅行",{size:22,fill:"#fff",family:F_SANS,weight:800,len:110})+svT(172,40,"GO",{size:16,fill:"#fff",family:F_MONO,weight:800})}),
+  cheers:c=>({w:130,h:48,b:svT(65,36,"Cheers!",{size:34,fill:c,family:"'Arial Rounded MT Bold','Helvetica Neue',Arial,sans-serif",weight:800,len:118})}),
+  ourstory:c=>({w:156,h:52,b:svT(78,32,"Our Story",{size:30,fill:c,family:F_SERIF,weight:600,len:140})+`<path d="M30 44h40M86 44h40" stroke="${c}" stroke-width="2"/><path transform="translate(71 36) scale(.29)" d="${HEART48}" fill="${c}"/>`}),
+  xoxo:c=>({w:120,h:44,b:svT(60,35,"XOXO",{size:36,stroke:c,sw:2.5,family:F_SANS,weight:900,len:108})}),
+  heart:c=>({w:48,h:48,b:`<path d="${HEART48}" fill="${c}"/>`}),
+  sparkle:c=>({w:48,h:48,b:`<path d="M24 2c1.2 10.5 4.6 15.9 19 21-14.4 5.1-17.8 10.5-19 21-1.2-10.5-4.6-15.9-19-21C19.4 17.9 22.8 12.5 24 2z" fill="${c}"/>`}),
+  star:c=>({w:48,h:48,b:`<path d="M24 4l6 13 14.3 1.6-10.7 9.7 3 14.1L24 35.2 11.4 42.4l3-14.1L3.7 18.6 18 17z" fill="${c}" stroke="${c}" stroke-width="2" stroke-linejoin="round"/>`}),
+  flower:c=>({w:48,h:48,b:`<g fill="${c}"><circle cx="24" cy="12" r="8.5"/><circle cx="35.4" cy="20.4" r="8.5"/><circle cx="31" cy="34" r="8.5"/><circle cx="17" cy="34" r="8.5"/><circle cx="12.6" cy="20.4" r="8.5"/></g><circle cx="24" cy="24.4" r="6.8" fill="#FFF3C8"/>`}),
+  cloud:c=>({w:48,h:32,b:`<path d="M13 31h22a9 9 0 0 0 1.2-17.9A12 12 0 0 0 13.2 10.6 10.2 10.2 0 0 0 13 31z" fill="${c}"/>`}),
+  moon:c=>({w:48,h:48,b:`<path d="M30 4a20 20 0 1 0 14 34A17 17 0 0 1 30 4z" fill="${c}"/>`}),
+  bow:c=>({w:56,h:42,b:`<g fill="${c}"><path d="M28 19C20 7 6 3 4 11s4 18 22 12z"/><path d="M28 19C36 7 50 3 52 11s-4 18-22 12z"/><path d="M24 23l-8 16 6-1 4 3 2-16zM32 23l8 16-6-1-4 3-2-16z"/></g><circle cx="28" cy="21" r="5" fill="${c}" stroke="#fff" stroke-width="2"/>`}),
+  tape:c=>({w:140,h:34,b:`<path d="M4 2h132l-3 6 3 6-3 6 3 6-3 6H4l3-6-3-6 3-6-3-6 3-6z" fill="${c}" fill-opacity=".75"/><g stroke="#fff" stroke-width="3" stroke-opacity=".45"><path d="M22 2l-10 30M46 2l-10 30M70 2l-10 30M94 2l-10 30M118 2l-10 30"/></g>`}),
+  cherry:c=>({w:48,h:48,b:`<path d="M24 6c-2 10-8 16-12 22M24 6c3 9 8 16 12 20" fill="none" stroke="#6E9F7F" stroke-width="2.5" stroke-linecap="round"/><path d="M24 6c6-3 12-1 14 3-5 2-10 1-14-3z" fill="#8FB8A8"/><circle cx="12" cy="35" r="9" fill="${c}"/><circle cx="36" cy="33" r="9" fill="${c}"/><circle cx="9" cy="32" r="2.5" fill="#fff" fill-opacity=".6"/><circle cx="33" cy="30" r="2.5" fill="#fff" fill-opacity=".6"/>`}),
+  note:c=>({w:48,h:48,b:`<path d="M18 36V10l22-5v26" fill="none" stroke="${c}" stroke-width="4" stroke-linejoin="round"/><ellipse cx="13" cy="37" rx="6.5" ry="5" fill="${c}"/><ellipse cx="35" cy="32" rx="6.5" ry="5" fill="${c}"/>`}),
+  camera:c=>({w:52,h:42,b:`<rect x="3" y="10" width="46" height="29" rx="6" fill="${c}"/><path d="M17 10l4-7h10l4 7z" fill="${c}"/><circle cx="26" cy="24" r="9" fill="#fff"/><circle cx="26" cy="24" r="5.5" fill="${c}"/><circle cx="41" cy="16" r="2" fill="#fff"/>`}),
+  arrow:c=>({w:80,h:44,b:`<path d="M6 36C20 8 46 4 66 18" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/><path d="M57 8l11 11-15 3" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`})
+};
+const SB_STICKERS=[["love","LOVE"],["ourday","Our Day"],["likeyou","今天也很喜歡你"],["dday","D+ 天數"],["anniv","Anniversary"],["withyou","with you"],
+  ["stamp","我們的日子"],["sweet","Sweet Moment"],["thanks","Thank you"],["best","Best Day Ever"],["goodnight","Good Night"],["missyou","想你了"],
+  ["forever","Forever"],["hbd","Happy Birthday"],["travel","一起去旅行"],["cheers","Cheers"],["ourstory","Our Story"],["xoxo","XOXO"],
+  ["heart","愛心"],["sparkle","閃光"],["star","星星"],["flower","小花"],["cloud","雲朵"],["moon","月亮"],["bow","蝴蝶結"],["tape","紙膠帶"],
+  ["cherry","櫻桃"],["note","音符"],["camera","相機"],["arrow","箭頭"]];
+const SB_SHAPES=new Set(["heart","sparkle","star","flower","cloud","moon","bow","cherry","note","camera","arrow"]);
+function sbStickerSVG(k,c,standalone){
+  const d=(SB_STK[k]||SB_STK.love)(c);
+  return standalone?`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${d.w} ${d.h}" width="${d.w}" height="${d.h}">${d.b}</svg>`
+    :`<svg class="k" viewBox="0 0 ${d.w} ${d.h}" style="width:${d.w/40}em;height:${d.h/40}em" aria-hidden="true">${d.b}</svg>`;
+}
+
+/* ---------- 背景（SVG 300×400） ---------- */
+const SB_BG={
+  cream:["奶油","#FFF9F0",""],
+  grid:["方格","#FFFDF8",`<pattern id="p" width="15" height="15" patternUnits="userSpaceOnUse"><path d="M15 0H0V15" fill="none" stroke="#8C7B72" stroke-opacity=".18"/></pattern>`],
+  dots:["點點","#FFFDF8",`<pattern id="p" width="15" height="15" patternUnits="userSpaceOnUse"><circle cx="7.5" cy="7.5" r="1.8" fill="#8C7B72" fill-opacity=".3"/></pattern>`],
+  lined:["筆記本","#FFFDF6",`<pattern id="p" width="300" height="20" patternUnits="userSpaceOnUse"><path d="M0 19.5H300" stroke="#C9DCEF"/></pattern>`,`<path d="M30 0V400" stroke="#F2B8B8" stroke-width="1.5"/>`],
+  kraft:["牛皮紙","#DCC3A0",`<pattern id="p" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V8" stroke="#fff" stroke-opacity=".1" stroke-width="2"/></pattern>`],
+  pinkcheck:["粉格紋","#F7D9DE",`<pattern id="p" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="15" height="30" fill="#fff" fill-opacity=".5"/><rect width="30" height="15" fill="#fff" fill-opacity=".5"/></pattern>`],
+  bluecheck:["藍格紋","#D6E5F5",`<pattern id="p" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="15" height="30" fill="#fff" fill-opacity=".5"/><rect width="30" height="15" fill="#fff" fill-opacity=".5"/></pattern>`],
+  lemon:["檸檬格","#FCEDB4",`<pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="12" height="24" fill="#fff" fill-opacity=".55"/><rect width="24" height="12" fill="#fff" fill-opacity=".55"/></pattern>`],
+  mint:["薄荷","#E4F2EA",`<pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1.4" fill="#fff"/></pattern>`],
+  lavheart:["紫愛心","#F1EAF8",`<pattern id="p" width="40" height="40" patternUnits="userSpaceOnUse"><path transform="translate(10 10) scale(.4)" d="${HEART48}" fill="#E1D0F2"/><path transform="translate(30 30) scale(.25)" d="${HEART48}" fill="#E8DBF5"/></pattern>`],
+  hearts:["愛心","#FCE4EA",`<pattern id="p" width="50" height="50" patternUnits="userSpaceOnUse"><path transform="translate(6 6) scale(.5)" d="${HEART48}" fill="#F7C6D2"/><path transform="translate(33 31) scale(.33)" d="${HEART48}" fill="#F9D3DD"/></pattern>`],
+  stripes:["條紋","#FFEFE2",`<pattern id="p" width="28" height="400" patternUnits="userSpaceOnUse"><rect width="14" height="400" fill="#FFF8F1"/></pattern>`],
+  confetti:["彩色紙片","#FFFCF5",`<pattern id="p" width="60" height="60" patternUnits="userSpaceOnUse"><circle cx="10" cy="12" r="2.5" fill="#F6B9A0"/><rect x="34" y="8" width="7" height="3" rx="1.5" fill="#9CC9E0" transform="rotate(30 37 9)"/><circle cx="48" cy="40" r="2" fill="#E8B33A"/><rect x="14" y="40" width="7" height="3" rx="1.5" fill="#CFE3D9" transform="rotate(-25 17 41)"/><circle cx="30" cy="28" r="1.8" fill="#E0708A"/></pattern>`],
+  sunset:["夕陽","#FFE3D0",`<linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD9C2"/><stop offset=".55" stop-color="#F9D8E2"/><stop offset="1" stop-color="#E3D7F3"/></linearGradient>`,"","g"],
+  night:["夜空","#2B2A38",`<pattern id="p" width="36" height="36" patternUnits="userSpaceOnUse"><circle cx="8" cy="9" r="1.6" fill="#fff" fill-opacity=".6"/><circle cx="26" cy="27" r="1.1" fill="#fff" fill-opacity=".35"/></pattern>`]
+};
+const SB_DARK_BG=new Set(["night"]);
+function sbBgSVG(k){
+  const [,base,defs,extra,grad]=SB_BG[k]||SB_BG.cream;
+  const fill=grad?`<rect width="300" height="400" fill="url(#g)"/>`:(defs?`<rect width="300" height="400" fill="url(#p)"/>`:"");
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400" preserveAspectRatio="none"><defs>${defs}</defs><rect width="300" height="400" fill="${base}"/>${fill}${extra||""}</svg>`;
+}
+const svgURL=s=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s);
+// 背景做成 CSS class（只產生一次），縮圖和編輯畫面共用
+(function sbBgStyles(){
+  const st=document.createElement("style");
+  st.textContent=Object.keys(SB_BG).map(k=>`.bg-${k}{background:${SB_BG[k][1]} url("${svgURL(sbBgSVG(k))}") 0 0/100% 100%}`).join("\n");
+  document.head.appendChild(st);
+})();
+
+/* ---------- 資料 ---------- */
+const sb={pages:[],loaded:false,cur:null,sel:null,crop:false,dirty:new Set(),timer:null,saving:false,lastFetch:0,
+  mode:"select",view:{s:1,x:0,y:0},ro:null};
 const sbId=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>"abcdefghijkmnpqrstuvwxyz23456789"[b%32]).join("");
 const sbNum=(v,a,b,d)=>{v=+v;return Number.isFinite(v)?Math.min(b,Math.max(a,v)):d;};
 const sbHex=(v,d)=>typeof v==="string"&&/^#[0-9a-fA-F]{6}$/.test(v)?v.toUpperCase():d;
@@ -1756,48 +1886,32 @@ function sbCleanItem(it){
     o.text=String(it.text||"").slice(0,120); o.font=sbIn(SB_FONTS,it.font,"sans"); o.color=sbHex(it.color,"#3B2F2F");
     o.size=sbNum(it.size,.03,.3,.07); o.bold=!!it.bold;
   }else{
-    o.k=sbIn(SB_STICKERS,it.k,"love"); o.color=sbHex(it.color,THEME.accent); o.size=sbNum(it.size,.03,.5,.07);
+    o.k=SB_STK[it.k]?it.k:"love"; o.color=sbHex(it.color,THEME.accent); o.size=sbNum(it.size,.02,.4,.05);
   }
   return o;
 }
-function sbCleanPage(p){
+function sbCleanPage(p,i){
   let d={}; try{d=typeof p.data==="string"?JSON.parse(p.data):(p.data||{});}catch(e){}
   return {id:String(p.id||""),title:String(p.title||"").slice(0,20),updatedAt:p.updatedAt||0,
-    data:{v:1,bg:sbIn(SB_BGS,d.bg,"cream"),items:(Array.isArray(d.items)?d.items:[]).slice(0,80).map(sbCleanItem).filter(Boolean)}};
+    data:{v:2,bg:SB_BG[d.bg]?d.bg:"cream",o:sbNum(d.o,-1e9,1e9,i||0),items:(Array.isArray(d.items)?d.items:[]).slice(0,80).map(sbCleanItem).filter(Boolean)}};
 }
+const sbSort=()=>sb.pages.sort((a,b)=>a.data.o-b.data.o);
+const sbPayload=p=>({id:p.id,title:p.title,data:JSON.stringify(p.data),updatedAt:p.updatedAt});
 
-/* ---------- 畫出頁面 ---------- */
-function sbSticker(k){
-  const HEART_P="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z";
-  switch(k){
-    case "love": return `<span class="k-love">LOVE</span>`;
-    case "ourday": return `<span class="k-ourday">Our Day</span>`;
-    case "likeyou": return `<span class="k-pill">今天也很喜歡你</span>`;
-    case "dday": return `<span class="k-dday">D+${Math.max(1,daysTogether())}</span>`;
-    case "anniv": return `<span class="k-ribbon">Happy Anniversary</span>`;
-    case "withyou": return `<span class="k-withyou">with you</span>`;
-    case "stamp": return `<span class="k-stamp">我們的<br>日子</span>`;
-    case "sweet": return `<span class="k-label">Sweet Moment</span>`;
-    case "thanks": return `<span class="k-thanks">Thank you</span>`;
-    case "best": return `<span class="k-tag">Best Day Ever</span>`;
-    case "heart": return `<svg class="k-shape" viewBox="0 0 24 24"><path d="${HEART_P}" style="fill:var(--c)"/></svg>`;
-    case "sparkle": return `<svg class="k-shape" viewBox="0 0 24 24"><path d="M12 1.5c.6 5.2 2.3 7.9 9.5 10.5-7.2 2.6-8.9 5.3-9.5 10.5-.6-5.2-2.3-7.9-9.5-10.5C9.7 9.4 11.4 6.7 12 1.5z" style="fill:var(--c)"/></svg>`;
-    case "flower": return `<svg class="k-shape" viewBox="0 0 24 24"><g style="fill:var(--c)"><circle cx="12" cy="6" r="4.2"/><circle cx="17.7" cy="10.2" r="4.2"/><circle cx="15.5" cy="17" r="4.2"/><circle cx="8.5" cy="17" r="4.2"/><circle cx="6.3" cy="10.2" r="4.2"/></g><circle cx="12" cy="12.2" r="3.4" fill="#FFF3C8"/></svg>`;
-    default: return `<svg class="k-shape" viewBox="0 0 24 16"><path d="M6.5 15.5h11a4.5 4.5 0 0 0 .6-9A6 6 0 0 0 6.6 5.3 5.1 5.1 0 0 0 6.5 15.5z" style="fill:var(--c)"/></svg>`;
-  }
-}
+/* ---------- 畫出頁面（DOM） ---------- */
 function sbStyle(it){
   let s=`left:${(it.x*100).toFixed(2)}%;top:${(it.y*100).toFixed(2)}%;transform:translate(-50%,-50%) rotate(${it.r.toFixed(1)}deg);`;
   if(it.t==="photo") s+=`width:${(it.w*100).toFixed(2)}cqw;height:${(it.h*100).toFixed(2)}cqw;--bc:${it.bc};`;
-  else s+=`font-size:${(it.size*100).toFixed(2)}cqw;${it.t==="text"?`color:${it.color};`:`--c:${it.color};`}`;
+  else if(it.t==="text") s+=`font-size:${(it.size*100).toFixed(2)}cqw;color:${it.color};font-family:${SB_FONT_CSS[it.font]};font-weight:${it.bold?800:(it.font==="round"?600:400)};`;
+  else s+=`font-size:${(it.size*100).toFixed(2)}cqw;`;
   return s;
 }
 function sbItemHTML(it,live){
   const sel=live&&sb.sel===it.id, handles=sel&&!sb.crop&&!sbReadOnly()?'<i class="hd rs" data-h="rs"></i><i class="hd rt" data-h="rt"></i>':"";
   const cls=`si s-${it.t}${sel?" sel":""}${sel&&sb.crop?" cropping":""}`;
   if(it.t==="photo") return `<div class="${cls} b-${it.border}" data-id="${it.id}" style="${sbStyle(it)}"><div class="ph"><img data-src="${esc(it.src)}" alt="" style="${cropStyle(it.crop)}" draggable="false"></div>${handles}</div>`;
-  if(it.t==="text") return `<div class="${cls} f-${it.font}${it.bold?" bold":""}" data-id="${it.id}" style="${sbStyle(it)}">${esc(it.text)||"&nbsp;"}${handles}</div>`;
-  return `<div class="${cls} k-${it.k}" data-id="${it.id}" style="${sbStyle(it)}">${sbSticker(it.k)}${handles}</div>`;
+  if(it.t==="text") return `<div class="${cls}" data-id="${it.id}" style="${sbStyle(it)}">${esc(it.text)||"&nbsp;"}${handles}</div>`;
+  return `<div class="${cls}" data-id="${it.id}" style="${sbStyle(it)}">${sbStickerSVG(it.k,it.color)}${handles}</div>`;
 }
 function sbPageHTML(page,live){
   return `<div class="sbpage bg-${page.data.bg}"${live?' id="sbPage"':""}>${page.data.items.map(it=>sbItemHTML(it,live)).join("")}</div>`;
@@ -1838,8 +1952,8 @@ function sbCacheKey(){return sbMode()==="cloud"?cloudKey()+"_pages":SB_LOCAL_KEY
 async function sbLoad(force){
   const mode=sbMode();
   if(mode==="off"||mode==="locked"){sb.pages=[];sb.loaded=true;return;}
-  if(mode==="demo"){demoCloud.seedPages();sb.pages=demoCloud.pages.map(sbCleanPage);sb.loaded=true;return;}
-  if(!sb.loaded){sb.pages=(store.get(sbCacheKey(),[])||[]).map(sbCleanPage);sb.loaded=true;}
+  if(mode==="demo"){demoCloud.seedPages();sb.pages=demoCloud.pages.map(sbCleanPage);sbSort();sb.loaded=true;return;}
+  if(!sb.loaded){sb.pages=(store.get(sbCacheKey(),[])||[]).map(sbCleanPage);sbSort();sb.loaded=true;}
   if(mode!=="cloud") return;
   if(!force&&Date.now()-sb.lastFetch<10000) return;
   sb.lastFetch=Date.now();
@@ -1849,70 +1963,86 @@ async function sbLoad(force){
     const d=await res.json();
     if(d.usage){cloudState.usage=d.usage;renderCloudStatus();}
     const fresh=d.pages.map(sbCleanPage);
-    // 正在編輯、還沒存的那一頁保留手機上的版本
-    if(sb.cur&&sb.pending){const i=fresh.findIndex(p=>p.id===sb.cur.id);if(i>=0) fresh[i]=sb.cur;}
-    sb.pages=fresh; store.set(sbCacheKey(),sb.pages.map(sbPagePayload));
+    // 這支手機上還沒存的頁面保留手機上的版本
+    sb.dirty.forEach(id=>{const i=fresh.findIndex(p=>p.id===id), mine=sb.pages.find(p=>p.id===id);if(i>=0&&mine) fresh[i]=mine;});
+    if(sb.cur){const i=fresh.findIndex(p=>p.id===sb.cur.id);if(i>=0) fresh[i]=sb.cur;}
+    sb.pages=fresh; sbSort(); store.set(sbCacheKey(),sb.pages.map(sbPayload));
   }catch(e){}
 }
-function sbPagePayload(p){return {id:p.id,title:p.title,data:JSON.stringify(p.data),updatedAt:p.updatedAt};}
-function sbSetStatus(t){sb.status=t;const el=$("#sbStatus");if(el) el.textContent=t;}
-function sbDirty(){
-  if(!sb.cur||sbReadOnly()) return;
-  sb.pending=true; sbSetStatus("未儲存");
-  clearTimeout(sb.timer); sb.timer=setTimeout(sbSave,1200);
+function sbSetStatus(t){const el=$("#sbStatus");if(el) el.textContent=t;}
+function sbDirty(p){
+  p=p||sb.cur; if(!p||sbReadOnly()) return;
+  sb.dirty.add(p.id); sbSetStatus("未儲存");
+  clearTimeout(sb.timer); sb.timer=setTimeout(sbFlush,1200);
 }
-async function sbSave(){
-  clearTimeout(sb.timer);
-  const p=sb.cur; if(!p||!sb.pending) return true;
-  if(sb.saving){sb.timer=setTimeout(sbSave,500);return false;}
-  sb.saving=true; sb.pending=false; sbSetStatus("儲存中…");
-  const mode=sbMode(), body={title:p.title,data:JSON.stringify(p.data)};
-  let ok=true;
-  try{
-    if(mode==="demo"){const i=demoCloud.pages.findIndex(x=>x.id===p.id);if(i>=0) demoCloud.pages[i]=sbPagePayload(p);}
-    else if(mode==="local"){const list=sb.pages.map(x=>x.id===p.id?p:x);store.set(SB_LOCAL_KEY,list.map(sbPagePayload));}
-    else{
-      const res=await cloudFetch("/pages/"+p.id,{method:"POST",body:JSON.stringify(body),json:true});
-      if(!res.ok){ok=false;sbSetStatus(await readErr(res));}
-      else{const d=await res.json();if(d.usage){cloudState.usage=d.usage;renderCloudStatus();}store.set(sbCacheKey(),sb.pages.map(sbPagePayload));}
-    }
-  }catch(e){ok=false;sbSetStatus("沒有網路，恢復連線後會再存");}
-  sb.saving=false;
-  if(!ok){sb.pending=true;return false;}
-  p.updatedAt=Date.now(); sbSetStatus(sb.pending?"未儲存":"已儲存");
-  return true;
-}
-window.addEventListener("online",()=>{if(sb.pending) sbSave();});
-async function sbCreatePage(){
+async function sbSavePage(p){
   const mode=sbMode();
-  const page={id:"",title:"",updatedAt:Date.now(),data:{v:1,bg:"cream",items:[
-    {id:sbId(),t:"text",text:"我們的一天",x:.5,y:.12,r:-3,font:"kai",color:"#3B2F2F",size:.085,bold:true}]}};
-  page.data.items=page.data.items.map(sbCleanItem);
+  if(mode==="demo"){const i=demoCloud.pages.findIndex(x=>x.id===p.id);if(i>=0) demoCloud.pages[i]=sbPayload(p);return {ok:true};}
+  if(mode==="local"){store.set(SB_LOCAL_KEY,sb.pages.map(sbPayload));return {ok:true};}
+  try{
+    const res=await cloudFetch("/pages/"+p.id,{method:"POST",body:JSON.stringify({title:p.title,data:JSON.stringify(p.data)}),json:true});
+    if(!res.ok) return {ok:false,msg:await readErr(res)};
+    const d=await res.json(); if(d.usage){cloudState.usage=d.usage;renderCloudStatus();}
+    store.set(sbCacheKey(),sb.pages.map(sbPayload));
+    return {ok:true};
+  }catch(e){return {ok:false,msg:"沒有網路，恢復連線後會再存"};}
+}
+async function sbFlush(){
+  clearTimeout(sb.timer);
+  if(sb.saving){sb.timer=setTimeout(sbFlush,400);return false;}
+  if(!sb.dirty.size) return true;
+  sb.saving=true; sbSetStatus("儲存中…");
+  const ids=[...sb.dirty]; sb.dirty.clear();
+  let msg="";
+  for(const id of ids){
+    const p=sb.pages.find(x=>x.id===id); if(!p) continue;
+    const r=await sbSavePage(p);
+    if(!r.ok){msg=r.msg;sb.dirty.add(id);} else p.updatedAt=Date.now();
+  }
+  sb.saving=false;
+  sbSetStatus(msg||(sb.dirty.size?"未儲存":"已儲存"));
+  return !msg;
+}
+window.addEventListener("online",()=>{if(sb.dirty.size) sbFlush();});
+async function sbCreatePage(after){
+  const mode=sbMode();
+  const os=sb.pages.map(p=>p.data.o), i=after?sb.pages.indexOf(after):-1;
+  // 插在指定頁的後面（排序值取兩頁中間）；沒指定就放最後
+  const o=i>=0&&i<sb.pages.length-1?(os[i]+os[i+1])/2:(os.length?Math.max(...os)+1:0);
+  const page={id:"",title:"",updatedAt:Date.now(),data:{v:2,bg:"cream",o,items:[
+    sbCleanItem({t:"text",text:"我們的一天",x:.5,y:.12,r:-3,font:"kai",color:"#3B2F2F",size:.085,bold:true})]}};
   if(mode==="cloud"){
     try{
       const res=await cloudFetch("/pages",{method:"POST",body:JSON.stringify({title:"",data:JSON.stringify(page.data)}),json:true});
-      if(!res.ok){alert(await readErr(res));return;}
+      if(!res.ok){alert(await readErr(res));return null;}
       const d=await res.json(); page.id=d.page.id;
-    }catch(e){alert(cloudErr(0));return;}
+    }catch(e){alert(cloudErr(0));return null;}
   }else page.id=sbId();
-  sb.pages.push(page);
-  if(mode==="demo") demoCloud.pages.push(sbPagePayload(page));
-  if(mode==="local"||mode==="cloud") store.set(sbCacheKey(),sb.pages.map(sbPagePayload));
-  sbOpen(page.id);
+  sb.pages.push(page); sbSort();
+  if(mode==="demo") demoCloud.pages.push(sbPayload(page));
+  if(mode==="local"||mode==="cloud") store.set(sbCacheKey(),sb.pages.map(sbPayload));
+  return page;
 }
-async function sbDeletePage(){
-  const p=sb.cur; if(!p) return;
-  if(!confirm("要刪除這一頁嗎？兩個人都會看不到，無法復原。")) return;
+async function sbDeletePage(p){
+  if(!p||!confirm("要刪除這一頁嗎？兩個人都會看不到，無法復原。")) return false;
   const mode=sbMode();
   if(mode==="cloud"){
-    try{const res=await cloudFetch("/pages/"+p.id,{method:"DELETE"});if(!res.ok&&res.status!==404){alert(await readErr(res));return;}
+    try{const res=await cloudFetch("/pages/"+p.id,{method:"DELETE"});if(!res.ok&&res.status!==404){alert(await readErr(res));return false;}
       const d=await res.json().catch(()=>({}));if(d.usage){cloudState.usage=d.usage;renderCloudStatus();}}
-    catch(e){alert(cloudErr(0));return;}
+    catch(e){alert(cloudErr(0));return false;}
   }
   if(mode==="demo") demoCloud.pages=demoCloud.pages.filter(x=>x.id!==p.id);
-  sb.pages=sb.pages.filter(x=>x.id!==p.id);
-  if(mode==="local"||mode==="cloud") store.set(sbCacheKey(),sb.pages.map(sbPagePayload));
-  sb.pending=false; sbClose(true);
+  sb.pages=sb.pages.filter(x=>x.id!==p.id); sb.dirty.delete(p.id);
+  if(mode==="local"||mode==="cloud") store.set(sbCacheKey(),sb.pages.map(sbPayload));
+  return true;
+}
+// 調整頁面順序：和前一頁（-1）或後一頁（+1）交換
+function sbMovePage(p,dir){
+  const i=sb.pages.indexOf(p), j=i+dir;
+  if(i<0||j<0||j>=sb.pages.length) return;
+  const q=sb.pages[j], t=p.data.o; p.data.o=q.data.o; q.data.o=t;
+  if(p.data.o===q.data.o) p.data.o+=dir*.001;
+  sbSort(); sbDirty(p); sbDirty(q);
 }
 
 /* ---------- 列表 ---------- */
@@ -1927,16 +2057,96 @@ function renderScrapList(){
     $("#sbGoPair").addEventListener("click",()=>show("album"));
     return;
   }
-  box.innerHTML=`<div class="sbhead"><h2 class="pagetitle">我們的剪貼簿</h2>${ro?"":'<button class="btn" id="sbNew">新增一頁</button>'}</div>
-    <p class="sub" style="margin:-6px 4px 14px">${mode==="local"?"可以用相簿裡的照片排版、加文字和貼紙（存在這支手機）。":"拖曳照片、加文字和貼紙，兩個人一起完成。"}</p>
-    <div class="sbgrid">${sb.pages.map(p=>`<button class="sbthumb" data-id="${esc(p.id)}" aria-label="打開「${esc(p.title||"未命名")}」">${sbPageHTML(p,false)}<span>${esc(p.title||"未命名")}</span></button>`).join("")
+  box.innerHTML=`<div class="sbhead"><h2 class="pagetitle">我們的剪貼簿</h2>
+      <div class="sbheadbtns">${sb.pages.length?'<button class="btn ghost" id="sbRead">翻閱</button>':""}${ro?"":'<button class="btn" id="sbNew">新增一頁</button>'}</div></div>
+    <p class="sub" style="margin:-6px 4px 14px">${mode==="local"?"可以用相簿裡的照片排版、加文字和貼紙（存在這支手機）。":"拖曳照片、加文字和貼紙，兩個人一起完成。"}做好可以存成圖片分享。</p>
+    <div class="sbgrid">${sb.pages.map((p,i)=>`<button class="sbthumb" data-i="${i}" aria-label="翻開第 ${i+1} 頁「${esc(p.title||"未命名")}」">${sbPageHTML(p,false)}<span><em>${i+1}</em>${esc(p.title||"未命名")}</span></button>`).join("")
       ||'<p class="sub" style="grid-column:1/-1;margin:0 4px">還沒有任何一頁，按「新增一頁」開始做你們的剪貼簿。</p>'}</div>`;
-  const nb=$("#sbNew"); if(nb) nb.addEventListener("click",sbCreatePage);
-  box.querySelectorAll(".sbthumb").forEach(b=>b.addEventListener("click",()=>sbOpen(b.dataset.id)));
+  const nb=$("#sbNew"); if(nb) nb.addEventListener("click",async()=>{const p=await sbCreatePage(null);if(p) sbOpen(p.id);});
+  const rb=$("#sbRead"); if(rb) rb.addEventListener("click",()=>sbOpenBook(0));
+  box.querySelectorAll(".sbthumb").forEach(b=>b.addEventListener("click",()=>sbOpenBook(+b.dataset.i)));
   sbHydrate(box);
 }
-async function showScrap(){
-  await sbLoad(false); renderScrapList();
+async function showScrap(){await sbLoad(false);renderScrapList();}
+
+/* ---------- 翻閱（像翻剪貼簿一樣） ---------- */
+const bk={i:0,spread:false,busy:false};
+const sbReduce=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+function sbBlankPage(){return '<div class="sbpage bg-cream blank"></div>';}
+function sbOpenBook(i){
+  if(!sb.pages.length) return;
+  const el=document.createElement("div");
+  el.className="sbbook"; el.id="sbBook"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label","翻閱剪貼簿");
+  el.innerHTML=`<div class="sbtop"><button class="btn ghost" id="bkClose">關閉</button><b class="bktitle">我們的剪貼簿</b><span class="sbstatus" id="bkNum"></span></div>
+    <div class="bkstage" id="bkStage"><div class="book" id="bookEl"></div></div>
+    <div class="bknav">
+      <button id="bkPrev" aria-label="上一頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="btn ghost" id="bkShare">分享／存圖</button>${sbReadOnly()?"":'<button class="btn ghost" id="bkEdit">編輯這頁</button>'}
+      <button id="bkNext" aria-label="下一頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>`;
+  document.body.appendChild(el); document.body.style.overflow="hidden";
+  bk.i=i; bk.busy=false;
+  const close=()=>{el.remove();document.body.style.overflow="";document.removeEventListener("keydown",onKey);window.removeEventListener("resize",bkLayout);};
+  const onKey=e=>{if(e.key==="Escape")close();if(e.key==="ArrowRight")bkGo(1);if(e.key==="ArrowLeft")bkGo(-1);};
+  document.addEventListener("keydown",onKey); window.addEventListener("resize",bkLayout);
+  $("#bkClose").addEventListener("click",close);
+  $("#bkPrev").addEventListener("click",()=>bkGo(-1));
+  $("#bkNext").addEventListener("click",()=>bkGo(1));
+  $("#bkShare").addEventListener("click",()=>sbShareSheet(bk.i));
+  const ed=$("#bkEdit"); if(ed) ed.addEventListener("click",()=>{const p=sb.pages[bk.i];close();sbOpen(p.id);});
+  // 左右滑動翻頁
+  const st=$("#bkStage"); let sx=null, sy=null;
+  st.addEventListener("pointerdown",e=>{sx=e.clientX;sy=e.clientY;});
+  st.addEventListener("pointerup",e=>{
+    if(sx===null) return;
+    const dx=e.clientX-sx, dy=e.clientY-sy; sx=null;
+    if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)) bkGo(dx<0?1:-1);
+  });
+  bkLayout();
+}
+function bkLayout(){
+  const st=$("#bkStage"), book=$("#bookEl"); if(!st||!book) return;
+  const W=st.clientWidth-32, H=st.clientHeight-24;
+  bk.spread=W>=600&&W/H>1.1;
+  if(bk.spread) bk.i-=bk.i%2;
+  const pw=Math.max(120,Math.min(bk.spread?W/2:W,H*.75));
+  book.style.setProperty("--pw",pw+"px");
+  bkRender();
+}
+function bkPagesAt(i){return bk.spread?[sb.pages[i],sb.pages[i+1]]:[sb.pages[i]];}
+function bkRender(){
+  const book=$("#bookEl"); if(!book) return;
+  book.className="book"+(bk.spread?" spread":"");
+  book.innerHTML=bkPagesAt(bk.i).map(p=>`<div class="leafpos">${p?sbPageHTML(p,false):sbBlankPage()}</div>`).join("");
+  sbHydrate(book);
+  const n=sb.pages.length, last=bk.spread?bk.i+1:bk.i;
+  $("#bkNum").textContent=bk.spread?`${bk.i+1}${bk.i+1<n?"–"+Math.min(n,bk.i+2):""} / ${n}`:`${bk.i+1} / ${n}`;
+  $("#bkPrev").disabled=bk.i<=0; $("#bkNext").disabled=last>=n-1;
+}
+// 翻頁動畫：一張「頁」繞著書脊轉過去
+function bkGo(dir){
+  const n=sb.pages.length, step=bk.spread?2:1, to=bk.i+dir*step;
+  if(bk.busy||to<0||to>n-1) return;
+  if(sbReduce()){bk.i=to;bkRender();return;}
+  const book=$("#bookEl"), P=i=>sb.pages[i]?sbPageHTML(sb.pages[i],false):sbBlankPage();
+  bk.busy=true;
+  let under, leaf;
+  if(!bk.spread){
+    under=`<div class="leafpos">${P(dir>0?to:bk.i)}</div>`;
+    leaf=`<div class="leaf single ${dir>0?"go-next":"go-prev"}"><div class="face">${P(dir>0?bk.i:to)}</div></div>`;
+  }else if(dir>0){
+    under=`<div class="leafpos">${P(bk.i)}</div><div class="leafpos">${P(to+1)}</div>`;
+    leaf=`<div class="leaf right go-next"><div class="face">${P(bk.i+1)}</div><div class="face back">${P(to)}</div></div>`;
+  }else{
+    under=`<div class="leafpos">${P(to)}</div><div class="leafpos">${P(bk.i+1)}</div>`;
+    leaf=`<div class="leaf left go-prev"><div class="face">${P(bk.i)}</div><div class="face back">${P(to+1)}</div></div>`;
+  }
+  book.innerHTML=under+leaf; sbHydrate(book);
+  const lf=book.querySelector(".leaf");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>lf.classList.add("turn")));
+  let done=false;
+  const finish=()=>{if(done) return;done=true;bk.i=to;bk.busy=false;bkRender();};
+  lf.addEventListener("transitionend",finish); setTimeout(finish,900);
 }
 
 /* ---------- 編輯 ---------- */
@@ -1945,6 +2155,7 @@ const SB_ICONS={
   text:'<path d="M5 6h14M12 6v13M9 19h6"/>',
   sticker:'<path d="M12 21l-1.4-1.3C5.4 15.4 2 12.3 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5"/><path d="M15 15h6M18 12v6"/>',
   bg:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/>',
+  pages:'<path d="M7 3h10l3 3v15H7z"/><path d="M4 6v15h13"/>',
   crop:'<path d="M6 2v14a2 2 0 0 0 2 2h14M2 6h14a2 2 0 0 1 2 2v14"/>',
   border:'<rect x="3" y="3" width="18" height="18" rx="3"/><rect x="7" y="7" width="10" height="10" rx="1"/>',
   color:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
@@ -1954,53 +2165,100 @@ const SB_ICONS={
   edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
   font:'<path d="M4 18l5-12 5 12M6 14h6M15 18v-6a3 3 0 0 1 6 0v6M15 15h6"/>',
   bold:'<path d="M7 5h6a3.5 3.5 0 0 1 0 7H7zM7 12h7a3.5 3.5 0 0 1 0 7H7z"/>',
-  done:'<path d="M5 12l5 5 9-10"/>'
+  done:'<path d="M5 12l5 5 9-10"/>',
+  share:'<path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>'
 };
-function sbTool(key,label,act){return `<button data-act="${act}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SB_ICONS[key]}</svg>${label}</button>`;}
+const sbSvg=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SB_ICONS[k]}</svg>`;
+function sbTool(key,label,act){return `<button data-act="${act}">${sbSvg(key)}${label}</button>`;}
 function sbItem(){return sb.cur&&sb.cur.data.items.find(i=>i.id===sb.sel);}
 
 function sbOpen(id){
   const p=sb.pages.find(x=>x.id===id); if(!p) return;
-  sb.cur=p; sb.sel=null; sb.crop=false; sb.panel=null; sb.pending=false;
+  sb.cur=p; sb.sel=null; sb.crop=false; sb.mode="select"; sb.view={s:1,x:0,y:0};
   const ro=sbReadOnly();
   const el=document.createElement("div");
   el.className="sbedit"; el.id="sbEdit"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); el.setAttribute("aria-label","編輯剪貼簿");
   el.innerHTML=`<div class="sbtop"><button class="btn ghost" id="sbBack">完成</button>
       <input id="sbTitle" maxlength="20" placeholder="這一頁的標題" value="${esc(p.title)}"${ro?" disabled":""}>
-      <span class="sbstatus" id="sbStatus" role="status"></span>${ro?"":'<button class="del" id="sbDel">刪除</button>'}</div>
-    <div class="sbstage" id="sbStage"></div>
+      <span class="sbstatus" id="sbStatus" role="status"></span>
+      <button class="sbicon" id="sbShare" aria-label="分享或存成圖片">${sbSvg("share")}</button></div>
+    <div class="sbstage" id="sbStage">
+      <div class="sbhold" id="sbHold"></div>
+      <div class="sbmode" role="group" aria-label="操作模式">
+        <button data-m="select" class="on" aria-pressed="true">選取</button><button data-m="pan" aria-pressed="false">移動畫面</button></div>
+      <div class="sbzoom"><button data-z="out" aria-label="縮小畫面">−</button><button data-z="reset" id="sbZoomLbl" aria-label="畫面回到 100%">100%</button><button data-z="in" aria-label="放大畫面">＋</button></div>
+    </div>
     <div class="sbpanel hidden" id="sbPanel"></div>
     <div class="sbtools" id="sbTools"></div>`;
   document.body.appendChild(el); document.body.style.overflow="hidden";
-  $("#sbBack").addEventListener("click",()=>sbClose(false));
-  const del=$("#sbDel"); if(del) del.addEventListener("click",sbDeletePage);
+  $("#sbBack").addEventListener("click",()=>sbClose());
+  $("#sbShare").addEventListener("click",async()=>{await sbFlush();sbShareSheet(sb.pages.indexOf(sb.cur));});
   $("#sbTitle").addEventListener("input",e=>{p.title=e.target.value.slice(0,20);sbDirty();});
+  el.querySelectorAll(".sbmode button").forEach(b=>b.addEventListener("click",()=>sbSetMode(b.dataset.m)));
+  el.querySelectorAll(".sbzoom button").forEach(b=>b.addEventListener("click",()=>{
+    const st=$("#sbStage").getBoundingClientRect();
+    if(b.dataset.z==="reset") sbViewReset();
+    else sbZoomAt(st.left+st.width/2,st.top+st.height/2,b.dataset.z==="in"?1.25:1/1.25);
+  }));
   sbSetStatus(ro?"已到期，只能瀏覽":"");
   sbRender(); sbBindStage();
   // 下方面板打開或收起時，編輯區大小會變，頁面跟著重新縮放
   if("ResizeObserver" in window){sb.ro=new ResizeObserver(()=>sbFit());sb.ro.observe($("#sbStage"));}
 }
-async function sbClose(skipSave){
-  if(!skipSave&&sb.pending) await sbSave();
+async function sbClose(){
+  await sbFlush();
   if(sb.ro){sb.ro.disconnect();sb.ro=null;}
   const el=$("#sbEdit"); if(el) el.remove();
   document.body.style.overflow="";
-  sb.cur=null; sb.sel=null; sb.crop=false; sb.panel=null;
+  sb.cur=null; sb.sel=null; sb.crop=false;
   renderScrapList();
 }
+// 兩種模式：選取（拖曳物件）、移動畫面（拖曳＝移動鏡頭、兩指＝放大縮小，不會動到物件）
+function sbSetMode(m){
+  sb.mode=m==="pan"?"pan":"select";
+  document.querySelectorAll("#sbEdit .sbmode button").forEach(b=>{const on=b.dataset.m===sb.mode;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);});
+  $("#sbStage").classList.toggle("panmode",sb.mode==="pan");
+  if(sb.mode==="pan"&&(sb.sel||sb.crop)){sb.sel=null;sb.crop=false;sbPanel(null);sbRender();}
+}
+function sbApplyView(){
+  const page=$("#sbPage"); if(!page) return;
+  const v=sb.view;
+  page.style.transform=`translate(${v.x.toFixed(1)}px,${v.y.toFixed(1)}px) scale(${v.s.toFixed(3)})`;
+  page.style.setProperty("--vz",v.s.toFixed(3));
+  const l=$("#sbZoomLbl"); if(l) l.textContent=Math.round(v.s*100)+"%";
+}
+// 讓頁面中心不會被拖出編輯區
+function sbClampView(){
+  const page=$("#sbPage"), hold=$("#sbHold"); if(!page||!hold) return;
+  const v=sb.view, w=page.offsetWidth*v.s, h=page.offsetHeight*v.s;
+  const minX=-page.offsetLeft-w/2+40, maxX=hold.clientWidth-page.offsetLeft-w/2-40;
+  const minY=-page.offsetTop-h/2+40, maxY=hold.clientHeight-page.offsetTop-h/2-40;
+  v.x=Math.min(Math.max(v.x,Math.min(minX,maxX)),Math.max(minX,maxX));
+  v.y=Math.min(Math.max(v.y,Math.min(minY,maxY)),Math.max(minY,maxY));
+}
+// 以螢幕上的某一點為中心縮放畫面
+function sbZoomAt(cx,cy,k,base){
+  const page=$("#sbPage"), hold=$("#sbHold"); if(!page) return;
+  const v=sb.view, b=base||{s:v.s,x:v.x,y:v.y}, hr=hold.getBoundingClientRect();
+  const lx=cx-hr.left-page.offsetLeft, ly=cy-hr.top-page.offsetTop;
+  const s=Math.min(4,Math.max(.6,b.s*k));
+  const px=(lx-b.x)/b.s, py=(ly-b.y)/b.s;
+  v.s=s; v.x=lx-s*px; v.y=ly-s*py;
+  sbClampView(); sbApplyView();
+}
+function sbViewReset(){sb.view={s:1,x:0,y:0};sbApplyView();}
 function sbRender(){
-  const stage=$("#sbStage"); if(!stage||!sb.cur) return;
-  stage.innerHTML=sbPageHTML(sb.cur,true);
-  sbFit(); sbHydrate(stage);
+  const hold=$("#sbHold"); if(!hold||!sb.cur) return;
+  hold.innerHTML=sbPageHTML(sb.cur,true);
+  sbFit(); sbApplyView(); sbHydrate(hold);
   const it=sbItem();
   if(it&&it.t==="photo"&&sb.crop) sbStartCrop(it);
   sbRenderTools();
 }
 // 頁面維持 3:4，依編輯區的寬高取較小的那邊
 function sbFit(){
-  const stage=$("#sbStage"), page=$("#sbPage"); if(!stage||!page) return;
-  const cs=getComputedStyle(stage), w=stage.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight), h=stage.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
-  page.style.width=Math.max(160,Math.min(w,h*.75))+"px";
+  const hold=$("#sbHold"), page=$("#sbPage"); if(!hold||!page) return;
+  page.style.width=Math.max(160,Math.min(hold.clientWidth-36,(hold.clientHeight-64)*.75))+"px";
 }
 window.addEventListener("resize",sbFit);
 function sbRenderTools(){
@@ -2008,7 +2266,7 @@ function sbRenderTools(){
   if(sbReadOnly()){tools.innerHTML="";return;}
   const it=sbItem();
   let h;
-  if(!it) h=sbTool("photo","照片","addPhoto")+sbTool("text","文字","addText")+sbTool("sticker","貼紙","addSticker")+sbTool("bg","背景","bg");
+  if(!it) h=sbTool("photo","照片","addPhoto")+sbTool("text","文字","addText")+sbTool("sticker","貼紙","addSticker")+sbTool("bg","背景","bg")+sbTool("pages","頁面","pages");
   else if(sb.crop) h=`<span class="sbhint">拖曳照片調整位置、兩指縮放</span>`+sbTool("done","完成","cropDone");
   else{
     const common=sbTool("up","上移","up")+sbTool("down","下移","down")+sbTool("trash","刪除","del")+sbTool("done","完成","deselect");
@@ -2020,8 +2278,8 @@ function sbRenderTools(){
   tools.querySelectorAll("button[data-act]").forEach(b=>b.addEventListener("click",()=>sbAction(b.dataset.act)));
 }
 function sbPanel(html,bind){
-  const pn=$("#sbPanel");
-  if(!html){pn.classList.add("hidden");pn.innerHTML="";sb.panel=null;sbFit();return;}
+  const pn=$("#sbPanel"); if(!pn) return;
+  if(!html){pn.classList.add("hidden");pn.innerHTML="";sbFit();return;}
   pn.innerHTML=html; pn.classList.remove("hidden"); if(bind) bind(pn);
   sbFit();
 }
@@ -2038,7 +2296,9 @@ function sbChips(list,cur,onPick,cls){
   });
 }
 function sbAdd(it){
-  const o=sbCleanItem(it); sb.cur.data.items.push(o); sb.sel=o.id; sb.crop=false; sbPanel(null); sbRender(); sbDirty();
+  const o=sbCleanItem(it); sb.cur.data.items.push(o); sb.sel=o.id; sb.crop=false;
+  if(sb.mode!=="select") sbSetMode("select");
+  sbPanel(null); sbRender(); sbDirty();
 }
 function sbTextPanel(it){
   sbPanel(`<div class="form"><label>${it?"修改文字":"輸入文字"}<textarea id="sbText" maxlength="120" rows="2" placeholder="想寫的話">${esc(it?it.text:"")}</textarea></label>
@@ -2090,19 +2350,38 @@ function sbPhotoPanel(){
     });
   });
 }
+function sbPagesPanel(){
+  const p=sb.cur, i=sb.pages.indexOf(p), n=sb.pages.length;
+  sbPanel(`<p class="hint" style="margin-bottom:10px">這是第 ${i+1} 頁，共 ${n} 頁。</p>
+    <div class="sbchips"><button data-p="prev"${i<=0?" disabled":""}>往前移一頁</button><button data-p="next"${i>=n-1?" disabled":""}>往後移一頁</button>
+    <button data-p="add">在後面新增一頁</button><button data-p="del" class="danger">刪除這頁</button></div>`,pn=>{
+    pn.querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{
+      const a=b.dataset.p;
+      if(a==="prev"||a==="next"){sbMovePage(p,a==="prev"?-1:1);sbPagesPanel();}
+      if(a==="add"){await sbFlush();const np=await sbCreatePage(p);if(np){const el=$("#sbEdit");if(el) el.remove();if(sb.ro){sb.ro.disconnect();sb.ro=null;}sbOpen(np.id);}}
+      if(a==="del"&&await sbDeletePage(p)){sb.dirty.delete(p.id);const el=$("#sbEdit");if(el) el.remove();if(sb.ro){sb.ro.disconnect();sb.ro=null;}document.body.style.overflow="";sb.cur=null;renderScrapList();}
+    }));
+  });
+}
 function sbAction(act){
   const it=sbItem(), items=sb.cur.data.items;
   if(act==="addPhoto") return sbPhotoPanel();
   if(act==="addText") return sbTextPanel(null);
-  if(act==="addSticker") return sbPanel(`<div class="sbstickers">${SB_STICKERS.map(([k,n])=>`<button data-k="${k}" aria-label="${n}"><span class="kprev" style="--c:${THEME.accent}">${sbSticker(k)}</span></button>`).join("")}</div>`,pn=>{
+  if(act==="pages") return sbPagesPanel();
+  if(act==="addSticker") return sbPanel(`<div class="sbstickers">${SB_STICKERS.map(([k,n])=>`<button data-k="${k}" aria-label="${n}"><span class="kprev">${sbStickerSVG(k,THEME.accent)}</span></button>`).join("")}</div>`,pn=>{
     // 預覽縮小到剛好放進按鈕
-    pn.querySelectorAll(".kprev").forEach(k=>{const b=k.parentElement;k.style.transform=`translate(-50%,-50%) scale(${Math.min(1,(b.clientWidth-10)/k.scrollWidth,(b.clientHeight-8)/k.scrollHeight)})`;});
+    pn.querySelectorAll(".kprev").forEach(k=>{const b=k.parentElement;k.style.transform=`translate(-50%,-50%) scale(${Math.min(1,(b.clientWidth-12)/k.scrollWidth,(b.clientHeight-10)/k.scrollHeight)})`;});
     pn.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
-      const k=b.dataset.k, shape=["heart","sparkle","flower","cloud"].includes(k);
-      sbAdd({t:"sticker",k,x:.5,y:.5,r:shape?0:-4,color:THEME.accent,size:shape?.06:.05});
+      const k=b.dataset.k, shape=SB_SHAPES.has(k);
+      sbAdd({t:"sticker",k,x:.5,y:.5,r:shape?0:-4,color:THEME.accent,size:shape?.09:.05});
     }));
   });
-  if(act==="bg") return sbChips(SB_BGS,sb.cur.data.bg,k=>{sb.cur.data.bg=k;$("#sbPage").className="sbpage bg-"+k;sbDirty();},"bgchips");
+  if(act==="bg") return sbPanel(`<div class="sbbgs">${Object.keys(SB_BG).map(k=>`<button class="bg-${k}${k===sb.cur.data.bg?" on":""}" data-k="${k}"><span>${SB_BG[k][0]}</span></button>`).join("")}</div>`,pn=>{
+    pn.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+      sb.cur.data.bg=b.dataset.k; $("#sbPage").className="sbpage bg-"+b.dataset.k;
+      pn.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b)); sbDirty();
+    }));
+  });
   if(!it) return;
   if(act==="deselect"){sb.sel=null;sb.crop=false;sbPanel(null);sbRender();return;}
   if(act==="del"){sb.cur.data.items=items.filter(i=>i!==it);sb.sel=null;sbPanel(null);sbRender();sbDirty();return;}
@@ -2122,56 +2401,76 @@ function sbAction(act){
 function sbRefreshItem(it){
   const el=document.querySelector(`#sbPage .si[data-id="${it.id}"]`); if(!el) return;
   const tmp=document.createElement("div"); tmp.innerHTML=sbItemHTML(it,true);
-  const n=tmp.firstElementChild;
-  const img=el.querySelector("img[src]"), nimg=n.querySelector("img");
-  if(img&&nimg){nimg.src=img.src;}
+  const n=tmp.firstElementChild, img=el.querySelector("img[src]"), nimg=n.querySelector("img");
+  if(img&&nimg) nimg.src=img.src;
   el.replaceWith(n);
 }
 function sbStartCrop(it){
   const el=document.querySelector(`#sbPage .si[data-id="${it.id}"]`); if(!el) return;
-  const box=el.querySelector(".ph"), img=el.querySelector("img");
   const st=parseCrop(it.crop)||{x:.5,y:.5,z:1};
-  attachCrop(box,img,st,()=>{it.crop=cropStr(st);});
+  attachCrop(el.querySelector(".ph"),el.querySelector("img"),st,()=>{it.crop=cropStr(st);});
 }
 
-/* ---------- 拖曳、縮放、旋轉 ---------- */
+/* ---------- 手勢：拖曳、縮放、旋轉、移動畫面 ---------- */
 function sbBindStage(){
   const stage=$("#sbStage");
   const pts=new Map();
-  let g=null;   // 目前的手勢
+  let g=null, raf=0, lastTap=0;
   const pageRect=()=>$("#sbPage").getBoundingClientRect();
   const center=(it,r)=>({x:r.left+it.x*r.width,y:r.top+it.y*r.height});
   const sizeOf=it=>it.t==="photo"?{w:it.w,h:it.h}:{size:it.size};
+  const two=()=>{const [a,b]=[...pts.values()];return {a,b,d:Math.hypot(a.x-b.x,a.y-b.y),mx:(a.x+b.x)/2,my:(a.y+b.y)/2,ang:Math.atan2(b.y-a.y,b.x-a.x)};};
+  // 每個畫面更新只畫一次，拖曳比較順
+  const paint=()=>{raf=0;if(!g) return;
+    if(g.it){const el=document.querySelector(`#sbPage .si[data-id="${g.it.id}"]`);if(el) el.style.cssText=sbStyle(g.it);}
+    else sbApplyView();
+  };
+  const schedule=()=>{if(!raf) raf=requestAnimationFrame(paint);};
   stage.addEventListener("pointerdown",e=>{
-    if(sbReadOnly()||!sb.cur) return;
-    // 第二根手指：不管落在哪裡，都對目前拖曳中的物件做縮放＋旋轉
-    if(g&&g.it&&pts.size===1&&!pts.has(e.pointerId)){
-      e.preventDefault(); try{stage.setPointerCapture(e.pointerId);}catch(_){} pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-      const [a,b]=[...pts.values()], it=g.it;
-      g={mode:"pinch",it,d:Math.hypot(a.x-b.x,a.y-b.y),ang:Math.atan2(b.y-a.y,b.x-a.x),r0:it.r,s0:sizeOf(it)};
+    if(!sb.cur||e.target.closest(".sbmode,.sbzoom")) return;
+    e.preventDefault();
+    try{stage.setPointerCapture(e.pointerId);}catch(_){}
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(pts.size===2){
+      const t=two();
+      // 第二根手指：選取模式下正在拖物件 → 縮放＋旋轉物件；其他情況 → 縮放畫面
+      if(g&&g.it&&sb.mode==="select") g={mode:"pinch",it:g.it,d:t.d,ang:t.ang,r0:g.it.r,s0:sizeOf(g.it)};
+      else g={mode:"vpinch",d:t.d,mx:t.mx,my:t.my,base:{...sb.view}};
       return;
     }
-    const page=$("#sbPage"); if(!page||!page.contains(e.target)) {if(e.target===stage){sb.sel=null;sb.crop=false;sbPanel(null);sbRender();}return;}
-    const el=e.target.closest(".si");
-    if(sb.crop&&el&&el.dataset.id===sb.sel) return;   // 裁切中：交給照片自己的拖曳
-    if(!el){if(sb.sel||sb.crop){sb.sel=null;sb.crop=false;sbPanel(null);sbRender();}return;}
+    if(pts.size>2) return;
+    const el=e.target.closest(".si"), page=$("#sbPage");
+    const onItem=sb.mode==="select"&&!sbReadOnly()&&el&&page&&page.contains(el);
+    if(!onItem){
+      // 空白處（或移動畫面模式）：拖曳＝移動畫面；輕點＝取消選取；連點兩下＝回到 100%
+      const now=Date.now();
+      if(now-lastTap<300){sbViewReset();lastTap=0;}else lastTap=now;
+      g={mode:"vpan",x0:sb.view.x,y0:sb.view.y,px:e.clientX,py:e.clientY,moved:false};
+      return;
+    }
+    if(sb.crop&&el.dataset.id===sb.sel) return;   // 裁切中：交給照片自己的拖曳
     const it=sb.cur.data.items.find(i=>i.id===el.dataset.id); if(!it) return;
-    e.preventDefault();
     if(sb.sel!==it.id||sb.crop){sb.sel=it.id;sb.crop=false;sbPanel(null);sbRender();}
-    try{stage.setPointerCapture(e.pointerId);}catch(_){}
-    pts.clear(); pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     const r=pageRect(), h=e.target.dataset.h;
-    if(h==="rs"){
-      const c=center(it,r); g={mode:"resize",it,c,d0:Math.hypot(e.clientX-c.x,e.clientY-c.y),s0:sizeOf(it)};
-    }else if(h==="rt"){
-      g={mode:"rotate",it,c:center(it,r)};
-    }else g={mode:"move",it,x0:it.x,y0:it.y,px:e.clientX,py:e.clientY,moved:false};
+    if(h==="rs"){const c=center(it,r);g={mode:"resize",it,c,d0:Math.hypot(e.clientX-c.x,e.clientY-c.y),s0:sizeOf(it)};}
+    else if(h==="rt") g={mode:"rotate",it,c:center(it,r)};
+    else g={mode:"move",it,x0:it.x,y0:it.y,px:e.clientX,py:e.clientY,moved:false};
   });
   stage.addEventListener("pointermove",e=>{
     if(!g||!pts.has(e.pointerId)) return;
     pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    const it=g.it, r=pageRect(), el=document.querySelector(`#sbPage .si[data-id="${it.id}"]`);
-    if(g.mode==="move"&&pts.size===1){
+    const it=g.it;
+    if(g.mode==="vpan"&&pts.size===1){
+      const dx=e.clientX-g.px, dy=e.clientY-g.py;
+      if(Math.abs(dx)+Math.abs(dy)>4) g.moved=true;
+      if(sb.view.s===1&&sb.mode==="select") return;   // 沒放大時，選取模式不移動畫面
+      sb.view.x=g.x0+dx; sb.view.y=g.y0+dy; sbClampView();
+    }else if(g.mode==="vpinch"&&pts.size===2){
+      const t=two();
+      sbZoomAt(g.mx,g.my,t.d/Math.max(1,g.d),g.base);
+      sb.view.x+=t.mx-g.mx; sb.view.y+=t.my-g.my; sbClampView();
+    }else if(g.mode==="move"&&pts.size===1){
+      const r=pageRect();
       it.x=sbNum(g.x0+(e.clientX-g.px)/r.width,-.2,1.2,it.x); it.y=sbNum(g.y0+(e.clientY-g.py)/r.height,-.2,1.2,it.y);
       g.moved=true;
     }else if(g.mode==="rotate"){
@@ -2180,6 +2479,7 @@ function sbBindStage(){
       if(Math.abs(a)<4) a=0;   // 接近水平時吸附
       it.r=a;
     }else if(g.mode==="resize"){
+      const r=pageRect();
       if(it.t==="photo"){
         // 把手指位置轉到照片自己的座標（考慮旋轉），算出新的寬高
         const dx=e.clientX-g.c.x, dy=e.clientY-g.c.y, rad=-it.r*Math.PI/180;
@@ -2187,37 +2487,221 @@ function sbBindStage(){
         it.w=sbNum(2*Math.abs(lx)/r.width,.08,1.4,it.w); it.h=sbNum(2*Math.abs(ly)/r.width,.08,1.8,it.h);
       }else{
         const d=Math.hypot(e.clientX-g.c.x,e.clientY-g.c.y);
-        it.size=sbNum(g.s0.size*d/Math.max(1,g.d0),.03,it.t==="text"?.3:.5,it.size);
+        it.size=sbNum(g.s0.size*d/Math.max(1,g.d0),.02,it.t==="text"?.3:.4,it.size);
       }
     }else if(g.mode==="pinch"&&pts.size===2){
-      const [a,b]=[...pts.values()], k=Math.hypot(a.x-b.x,a.y-b.y)/Math.max(1,g.d);
-      const da=(Math.atan2(b.y-a.y,b.x-a.x)-g.ang)*180/Math.PI;
-      it.r=Math.round((g.r0+da)*10)/10; if(it.r>180) it.r-=360; if(it.r<-180) it.r+=360;
+      const t=two(), k=t.d/Math.max(1,g.d);
+      let r=Math.round((g.r0+(t.ang-g.ang)*180/Math.PI)*10)/10; if(r>180) r-=360; if(r<-180) r+=360;
+      it.r=r;
       if(it.t==="photo"){it.w=sbNum(g.s0.w*k,.08,1.4,it.w);it.h=sbNum(g.s0.h*k,.08,1.8,it.h);}
-      else it.size=sbNum(g.s0.size*k,.03,it.t==="text"?.3:.5,it.size);
+      else it.size=sbNum(g.s0.size*k,.02,it.t==="text"?.3:.4,it.size);
     }else return;
-    if(el) el.style.cssText=sbStyle(it);
+    schedule();
   });
   const end=e=>{
     if(!pts.has(e.pointerId)) return;
     pts.delete(e.pointerId);
     if(!g) return;
-    if(g.mode==="pinch"&&pts.size===1){g={mode:"done",it:g.it};sbDirty();return;}
-    if(pts.size===0){
-      if(g.mode!=="move"||g.moved) sbDirty();
-      g=null;
-    }
+    if(pts.size===1&&(g.mode==="pinch"||g.mode==="vpinch")){if(g.it) sbDirty();g={mode:"done"};return;}
+    if(pts.size) return;
+    if(raf){cancelAnimationFrame(raf);paint();}
+    if(g.mode==="vpan"&&!g.moved&&sb.mode==="select"&&(sb.sel||sb.crop)){sb.sel=null;sb.crop=false;sbPanel(null);sbRender();}
+    else if(g.it&&(g.mode!=="move"||g.moved)) sbDirty();
+    g=null;
   };
   stage.addEventListener("pointerup",end); stage.addEventListener("pointercancel",end);
-  // 電腦：滾輪縮放選取的物件
+  // 電腦：滾輪縮放（選取物件時縮放物件，否則縮放畫面）
   stage.addEventListener("wheel",e=>{
-    const it=sbItem(); if(!it||sb.crop||sbReadOnly()) return;
+    if(!sb.cur) return;
     e.preventDefault();
-    const k=e.deltaY<0?1.06:1/1.06;
-    if(it.t==="photo"){it.w=sbNum(it.w*k,.08,1.4,it.w);it.h=sbNum(it.h*k,.08,1.8,it.h);}
-    else it.size=sbNum(it.size*k,.03,it.t==="text"?.3:.5,it.size);
-    sbRefreshItem(it); sbDirty();
+    const k=e.deltaY<0?1.08:1/1.08, it=sbItem();
+    if(it&&sb.mode==="select"&&!sb.crop&&!sbReadOnly()){
+      if(it.t==="photo"){it.w=sbNum(it.w*k,.08,1.4,it.w);it.h=sbNum(it.h*k,.08,1.8,it.h);}
+      else it.size=sbNum(it.size*k,.02,it.t==="text"?.3:.4,it.size);
+      sbRefreshItem(it); sbDirty();
+    }else if(!sb.crop) sbZoomAt(e.clientX,e.clientY,k);
   },{passive:false});
+}
+
+/* ---------- 存成圖片（canvas 照著同一份資料畫） ---------- */
+const sbImgCache=new Map();
+function sbLoadImg(src){
+  if(sbImgCache.has(src)) return sbImgCache.get(src);
+  const p=new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=()=>no(new Error("img"));im.src=src;});
+  sbImgCache.set(src,p); p.catch(()=>sbImgCache.delete(src));
+  return p;
+}
+function sbRoundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+// 和畫面上的 object-fit:cover + object-position + scale 一樣的取景
+function sbDrawCover(ctx,img,x,y,w,h,c){
+  const nw=img.naturalWidth||img.width, nh=img.naturalHeight||img.height, k=Math.max(w/nw,h/nh), rw=nw*k, rh=nh*k;
+  const ox=(w-rw)*c.x, oy=(h-rh)*c.y, px=w*c.x, py=h*c.y;
+  ctx.drawImage(img,x+px+(ox-px)*c.z,y+py+(oy-py)*c.z,rw*c.z,rh*c.z);
+}
+async function sbDrawPhoto(ctx,it,W){
+  const u=W/100, w=it.w*W, h=it.h*W, x=-w/2, y=-h/2, bc=it.bc;
+  let img=null; try{img=await sbLoadImg(await sbPhotoURL(it.src));}catch(e){}
+  const crop=parseCrop(it.crop)||{x:.5,y:.5,z:1};
+  const pic=(px,py,pw,ph,shape)=>{
+    ctx.save();
+    if(shape==="round") sbRoundRect(ctx,px,py,pw,ph,3.8*u);
+    else if(shape==="circle"){ctx.beginPath();ctx.ellipse(px+pw/2,py+ph/2,pw/2,ph/2,0,0,Math.PI*2);}
+    else{ctx.beginPath();ctx.rect(px,py,pw,ph);}
+    ctx.clip();
+    if(img) sbDrawCover(ctx,img,px,py,pw,ph,crop);
+    else{ctx.fillStyle="#EDE4DA";ctx.fillRect(px,py,pw,ph);}
+    ctx.restore();
+  };
+  const shadow=(oy,blur,col)=>{ctx.shadowColor=col;ctx.shadowOffsetY=oy;ctx.shadowBlur=blur;};
+  const noShadow=()=>{ctx.shadowColor="transparent";ctx.shadowBlur=0;ctx.shadowOffsetY=0;};
+  ctx.fillStyle=bc;
+  switch(it.border){
+    case "white": ctx.fillRect(x,y,w,h); pic(x+1.4*u,y+1.4*u,w-2.8*u,h-2.8*u); break;
+    case "polaroid": shadow(.6*u,2*u,"rgba(0,0,0,.16)"); ctx.fillRect(x,y,w,h); noShadow(); pic(x+1.8*u,y+1.8*u,w-3.6*u,h-8.8*u); break;
+    case "round": sbRoundRect(ctx,x,y,w,h,5*u); ctx.fill(); pic(x+1.2*u,y+1.2*u,w-2.4*u,h-2.4*u,"round"); break;
+    case "circle": ctx.beginPath(); ctx.ellipse(0,0,w/2,h/2,0,0,Math.PI*2); ctx.fill(); pic(x+1.2*u,y+1.2*u,w-2.4*u,h-2.4*u,"circle"); break;
+    case "shadow": shadow(1.6*u,4*u,"rgba(0,0,0,.28)"); ctx.fillStyle="#EDE4DA"; ctx.fillRect(x,y,w,h); noShadow(); pic(x,y,w,h); break;
+    case "tape":{
+      shadow(.6*u,1.6*u,"rgba(0,0,0,.12)"); ctx.fillStyle="#EDE4DA"; ctx.fillRect(x,y,w,h); noShadow(); pic(x,y,w,h);
+      const tw=.32*w, th=5.5*u;
+      [[x-.07*w+tw/2,y-2.6*u+th/2],[-x+.07*w-tw/2,-y+2.6*u-th/2]].forEach(([cx,cy])=>{
+        ctx.save(); ctx.translate(cx,cy); ctx.rotate(-32*Math.PI/180); ctx.globalAlpha=.8; ctx.fillStyle=bc; ctx.fillRect(-tw/2,-th/2,tw,th); ctx.restore();
+      });
+      break;
+    }
+    default: pic(x,y,w,h);
+  }
+}
+function sbDrawText(ctx,it,W){
+  const fs=it.size*W, lines=it.text.split("\n");
+  ctx.font=`${it.bold?800:(it.font==="round"?600:400)} ${fs}px ${SB_FONT_CSS[it.font]}`;
+  ctx.fillStyle=it.color; ctx.textAlign="center"; ctx.textBaseline="middle";
+  lines.forEach((ln,i)=>ctx.fillText(ln,0,(i-(lines.length-1)/2)*1.25*fs));
+}
+async function sbDrawPage(ctx,page,X,Y,W){
+  const H=W*4/3;
+  ctx.save(); ctx.beginPath(); ctx.rect(X,Y,W,H); ctx.clip();
+  ctx.fillStyle=SB_BG[page.data.bg][1]; ctx.fillRect(X,Y,W,H);
+  ctx.drawImage(await sbLoadImg(svgURL(sbBgSVG(page.data.bg))),X,Y,W,H);
+  for(const it of page.data.items){
+    ctx.save(); ctx.translate(X+it.x*W,Y+it.y*H); ctx.rotate(it.r*Math.PI/180);
+    if(it.t==="photo") await sbDrawPhoto(ctx,it,W);
+    else if(it.t==="text") sbDrawText(ctx,it,W);
+    else{
+      const d=SB_STK[it.k](it.color), img=await sbLoadImg(svgURL(sbStickerSVG(it.k,it.color,true)));
+      const w=it.size*W*d.w/40, h=it.size*W*d.h/40;
+      ctx.drawImage(img,-w/2,-h/2,w,h);
+    }
+    ctx.restore();
+  }
+  ctx.restore();
+}
+function sbMarkText(){return typeof CONFIG.exportMark==="string"?CONFIG.exportMark:CONFIG.title;}
+function sbDrawMark(ctx,x,y,size,dark,align){
+  const t=sbMarkText(); if(!t) return;
+  ctx.save(); ctx.font=`600 ${size}px ${SB_FONT_CSS.sans}`; ctx.textAlign=align||"right"; ctx.textBaseline="alphabetic";
+  ctx.fillStyle=dark?"rgba(255,255,255,.7)":"rgba(59,47,47,.42)"; ctx.fillText(t,x,y); ctx.restore();
+}
+// kind：post 單頁 3:4、story 限時動態 9:16、spread 跨頁橫式、book 整本（每頁一張）
+async function sbExport(kind,idx,mark){
+  if(document.fonts&&document.fonts.ready) await document.fonts.ready;
+  const make=(w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;return c;};
+  const toFile=(c,name)=>new Promise((ok,no)=>c.toBlob(b=>b?ok(new File([b],name,{type:"image/jpeg"})):no(new Error("blob")),"image/jpeg",.92));
+  const post=async(p,i)=>{
+    const c=make(1080,1440), ctx=c.getContext("2d");
+    await sbDrawPage(ctx,p,0,0,1080);
+    if(mark) sbDrawMark(ctx,1040,1404,26,SB_DARK_BG.has(p.data.bg));
+    return toFile(c,`ourdays-page${i+1}.jpg`);
+  };
+  if(kind==="book"){const out=[];for(let i=0;i<sb.pages.length;i++) out.push(await post(sb.pages[i],i));return out;}
+  const p=sb.pages[idx];
+  if(kind==="post") return [await post(p,idx)];
+  if(kind==="story"){
+    const c=make(1080,1920), ctx=c.getContext("2d");
+    ctx.fillStyle=CONFIG.bg; ctx.fillRect(0,0,1080,1920);
+    ctx.fillStyle="#3B2F2F"; ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+    ctx.font=`800 64px ${SB_FONT_CSS.kai}`; ctx.fillText(p.title||"我們的剪貼簿",540,200);
+    ctx.save(); ctx.shadowColor="rgba(59,47,47,.18)"; ctx.shadowBlur=40; ctx.shadowOffsetY=16; ctx.fillStyle="#fff"; ctx.fillRect(90,270,900,1200); ctx.restore();
+    await sbDrawPage(ctx,p,90,270,900);
+    const n=daysTogether();
+    ctx.fillStyle="#3B2F2F"; ctx.font=`700 44px ${SB_FONT_CSS.sans}`; ctx.textAlign="center";
+    ctx.fillText(n>0?`${CONFIG.couple.a} & ${CONFIG.couple.b}・第 ${n} 天`:`${CONFIG.couple.a} & ${CONFIG.couple.b}`,540,1600);
+    ctx.fillStyle="#8C7B72"; ctx.font=`500 32px ${SB_FONT_CSS.sans}`; ctx.fillText(fmt(today0()),540,1660);
+    if(mark) sbDrawMark(ctx,540,1860,28,false,"center");
+    return [await toFile(c,`ourdays-story${idx+1}.jpg`)];
+  }
+  // 跨頁：兩頁並排像一本攤開的書（第 1–2 頁、3–4 頁…）
+  const L=idx-idx%2, W=1000, H=1333, c=make(2240,1560), ctx=c.getContext("2d");
+  ctx.fillStyle=mix(CONFIG.bg,"#8C7B72",.18); ctx.fillRect(0,0,2240,1560);
+  ctx.save(); ctx.shadowColor="rgba(40,30,25,.28)"; ctx.shadowBlur=50; ctx.shadowOffsetY=20; ctx.fillStyle="#fff"; ctx.fillRect(120,100,W*2,H); ctx.restore();
+  await sbDrawPage(ctx,sb.pages[L],120,100,W);
+  if(sb.pages[L+1]) await sbDrawPage(ctx,sb.pages[L+1],120+W,100,W);
+  else{ctx.fillStyle="#FFF9F0";ctx.fillRect(120+W,100,W,H);}
+  const gr=ctx.createLinearGradient(120+W-70,0,120+W+70,0);
+  gr.addColorStop(0,"rgba(0,0,0,0)"); gr.addColorStop(.5,"rgba(0,0,0,.2)"); gr.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=gr; ctx.fillRect(120+W-70,100,140,H);
+  if(mark) sbDrawMark(ctx,1120,1520,30,false,"center");
+  return [await toFile(c,`ourdays-spread${L+1}-${L+2}.jpg`)];
+}
+function sbShareSheet(idx){
+  const n=sb.pages.length, hasMark=!!sbMarkText();
+  let kind="post", mark=hasMark, files=null, gen=0;
+  const md=document.createElement("div");
+  md.className="sheetwrap"; md.setAttribute("role","dialog"); md.setAttribute("aria-modal","true"); md.setAttribute("aria-label","分享或存成圖片");
+  md.innerHTML=`<div class="sheet share">
+    <div class="sheethead"><h3>分享／存成圖片</h3><button class="del" id="shClose">關閉</button></div>
+    <div class="sbchips" id="shKind" style="margin-top:12px">
+      <button class="on" data-k="post">貼文（直式 3:4）</button><button data-k="story">限時動態（9:16）</button>
+      <button data-k="spread">跨頁（橫式）</button>${n>1?`<button data-k="book">整本（每頁一張，共 ${n} 張）</button>`:""}</div>
+    ${hasMark?`<label class="check" style="display:flex;margin-top:10px"><input type="checkbox" id="shMark" checked>加上「${esc(sbMarkText())}」小字</label>`:""}
+    <div class="shprev"><img id="shImg" alt="預覽"><p class="msg" id="shInfo">製作中…</p></div>
+    <div class="formacts"><button class="btn ghost" id="shDl" disabled>下載圖片</button><button class="btn" id="shGo" disabled>分享／存到相簿</button></div>
+    <p class="hint" style="margin-top:10px">iPhone：按「分享／存到相簿」後選「儲存影像」，就會存進照片；也可以直接選要分享的 App。一次分享多張時，大部分 App 最多一次 10 張。</p>
+  </div>`;
+  document.body.appendChild(md);
+  const close=()=>{md.remove();document.removeEventListener("keydown",onKey);};
+  const onKey=e=>{if(e.key==="Escape")close();};
+  document.addEventListener("keydown",onKey);
+  md.addEventListener("click",e=>{if(e.target===md)close();});
+  md.querySelector("#shClose").addEventListener("click",close);
+  const info=t=>{md.querySelector("#shInfo").textContent=t;};
+  // 先做好圖片：手機的「分享」必須在點按當下馬上叫出來，不能等製作
+  const build=async()=>{
+    const my=++gen; files=null;
+    md.querySelector("#shGo").disabled=true; md.querySelector("#shDl").disabled=true; info("製作中…");
+    try{
+      const out=await sbExport(kind,idx,mark);
+      if(my!==gen) return;
+      files=out;
+      const img=md.querySelector("#shImg"); if(img.dataset.url) URL.revokeObjectURL(img.dataset.url);
+      img.dataset.url=URL.createObjectURL(out[0]); img.src=img.dataset.url;
+      const dims={post:"1080 × 1440",story:"1080 × 1920",spread:"2240 × 1560",book:"1080 × 1440"}[kind];
+      info(`${dims}・${out.length} 張`);
+      md.querySelector("#shGo").disabled=false; md.querySelector("#shDl").disabled=false;
+    }catch(e){
+      if(my!==gen) return;
+      info(e&&e.name==="SecurityError"?"請用網址打開網頁（不是直接開檔案），才能存成圖片。":"製作圖片時發生問題，請再試一次。");
+    }
+  };
+  md.querySelectorAll("#shKind button").forEach(b=>b.addEventListener("click",()=>{
+    kind=b.dataset.k; md.querySelectorAll("#shKind button").forEach(x=>x.classList.toggle("on",x===b)); build();
+  }));
+  const mk=md.querySelector("#shMark"); if(mk) mk.addEventListener("change",()=>{mark=mk.checked;build();});
+  const download=()=>{
+    files.forEach((f,i)=>setTimeout(()=>{
+      const a=document.createElement("a"), u=URL.createObjectURL(f);
+      a.href=u; a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000);
+    },i*400));
+  };
+  md.querySelector("#shDl").addEventListener("click",()=>{if(files) download();});
+  md.querySelector("#shGo").addEventListener("click",()=>{
+    if(!files) return;
+    const data={files,title:"我們的剪貼簿"};
+    if(navigator.canShare&&navigator.canShare(data)){
+      navigator.share(data).catch(e=>{if(e&&e.name!=="AbortError") info("沒有分享成功，可以改按「下載圖片」。");});
+    }else{download();info("這個瀏覽器不支援直接分享，已改成下載圖片。");}
+  });
+  build();
 }
 
 /* ---------------- 問答 ---------------- */
